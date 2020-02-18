@@ -1,4 +1,4 @@
-package com.ceiba.parkinglot_adn.base
+package com.ceiba.parkinglot_adn.presentation.base
 
 import android.os.Bundle
 import androidx.annotation.LayoutRes

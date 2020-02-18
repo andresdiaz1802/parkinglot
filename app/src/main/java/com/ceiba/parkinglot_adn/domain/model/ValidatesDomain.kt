@@ -1,9 +1,9 @@
-package com.ceiba.parkinglot_adn.domain
+package com.ceiba.parkinglot_adn.domain.model
 
 import com.ceiba.parkinglot_adn.tools.PRICE_CAR_DAY
 import com.ceiba.parkinglot_adn.tools.PRICE_CAR_HOUR
 
-class Validates {
+class ValidatesDomain {
 
     private val LETTER_A: String = "a"
 

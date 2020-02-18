@@ -1,11 +1,13 @@
 package com.ceiba.parkinglot_adn.domain
 
+import com.ceiba.parkinglot_adn.domain.model.ValidatesDomain
 import org.junit.Assert.assertEquals
 import org.junit.Test
 
 class ValidateTest {
 
-    private val validate = Validates()
+    private val validate =
+        ValidatesDomain()
 
     @Test
     fun letterInitPlateIsATest() {

@@ -1,11 +1,10 @@
 package com.ceiba.parkinglot_adn.presentation.views
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.EditText
 import com.ceiba.parkinglot_adn.R
-import com.ceiba.parkinglot_adn.base.BaseActivity
+import com.ceiba.parkinglot_adn.presentation.base.BaseActivity
 import com.ceiba.parkinglot_adn.presentation.presenters.MainPresenter
 
 class MainActivity :
@@ -19,6 +18,14 @@ class MainActivity :
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         mainPresenter = MainPresenter(this)
+
+//        val dao = ParkingLotRoomDatabase.getDatabase(this).carDao()
+//        val repository = CarRepository(dao)
+//        var car = CarDomain()
+//        car.plate = "abc123"
+//        repository.run { insert(carDomain = car) }
+//        Log.d("CarRepository", repository.allCar().toString())
+
         plate = findViewById(R.id.et_plate)
     }
 
