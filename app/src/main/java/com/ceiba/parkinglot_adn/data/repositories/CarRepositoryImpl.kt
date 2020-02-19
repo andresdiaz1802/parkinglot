@@ -4,7 +4,7 @@ import com.ceiba.parkinglot_adn.data.dao.CarDao
 import com.ceiba.parkinglot_adn.domain.model.ModelMapper
 import com.ceiba.parkinglot_adn.domain.objects.CarDomain
 
-class CarRepositoryImp(private val carDao: CarDao) : CarRepository {
+class CarRepositoryImpl(private val carDao: CarDao) : CarRepository {
 
     private var modelMapper: ModelMapper = ModelMapper()
 

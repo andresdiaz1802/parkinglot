@@ -12,8 +12,8 @@ interface MotorcycleDao {
     fun getMotorcycles(): List<MotorcycleEntity>
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    suspend fun insert(motorcycleEntity: MotorcycleEntity)
+    fun insert(motorcycleEntity: MotorcycleEntity)
 
     @Query("DELETE FROM motorcycle")
-    suspend fun deleteAll()
+    fun deleteAll()
 }
