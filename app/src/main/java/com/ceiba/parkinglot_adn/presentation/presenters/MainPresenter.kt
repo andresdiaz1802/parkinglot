@@ -1,14 +1,19 @@
 package com.ceiba.parkinglot_adn.presentation.presenters
 
-class MainPresenter(private val view: View) {
+import android.util.Log
+import androidx.lifecycle.MutableLiveData
+import com.ceiba.parkinglot_adn.domain.services.RegisterServices
 
-    fun setEmptyField(plate: String) {
-        if (plate == ""){
-            view.showErrorFieldEmpty()
-        }
+class MainPresenter(private val viewPresenter: ViewPresenter) {
+
+    val plate: MutableLiveData<String> = MutableLiveData()
+    val cylindrical: MutableLiveData<String> = MutableLiveData()
+
+    fun onClickSend() {
+        Log.d("Presenter", "${plate.value}")
+        val registerServices: RegisterServices = RegisterServices()
     }
 
-    interface View {
-        fun showErrorFieldEmpty()
+    interface ViewPresenter {
     }
 }

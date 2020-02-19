@@ -13,17 +13,23 @@ class ModelMapper {
         return gson.toJson(value)
     }
 
-    fun toCarDomain(value: Any): List<CarDomain> {
+    fun toCarsDomain(value: Any): List<CarDomain> {
         return gson.fromJson(toString(value), Array<CarDomain>::class.java).toList()
     }
+
+    fun toCarDomain(value: Any): CarDomain =
+        gson.fromJson(toString(value), CarDomain::class.java)
 
     fun toCarEntity(value: Any): CarEntity {
         return gson.fromJson(toString(value), CarEntity::class.java)
     }
 
-    fun toMotorcycleDomain(value: Any): List<MotorcycleDomain> {
+    fun toMotorcyclesDomain(value: Any): List<MotorcycleDomain> {
         return gson.fromJson(toString(value), Array<MotorcycleDomain>::class.java).toList()
     }
+
+    fun toMotorcycleDomain(value: Any): MotorcycleDomain =
+        gson.fromJson(toString(value), MotorcycleDomain::class.java)
 
     fun toMotorcycleEntity(value: Any): MotorcycleEntity {
         return gson.fromJson(toString(value), MotorcycleEntity::class.java)

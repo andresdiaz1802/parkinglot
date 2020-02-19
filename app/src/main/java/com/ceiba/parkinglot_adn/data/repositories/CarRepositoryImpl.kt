@@ -8,17 +8,22 @@ class CarRepositoryImpl(private val carDao: CarDao) : CarRepository {
 
     private var modelMapper: ModelMapper = ModelMapper()
 
-    override fun selectAll(): List<CarDomain> {
-        return modelMapper.toCarDomain(carDao.getCars())
+    override fun selectAll(): List<CarDomain> = modelMapper.toCarsDomain(carDao.selectAll())
+
+//    override fun select(plate: String): List<CarDomain> =
+//        modelMapper.toCarsDomain(carDao.select(plate))
+
+//    override fun delete(plate: String) {
+//        carDao.delete(plate)
+//    }
+
+    override fun deleteAll() {
+        carDao.deleteAll()
     }
 
-    override fun select(plate: String): CarDomain {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
-    override fun delete(plate: String) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
+//    override fun update(plate: String) {
+//        carDao.update(plate)
+//    }
 
     override fun insert(carDomain: CarDomain) {
         carDao.insert(modelMapper.toCarEntity(carDomain))

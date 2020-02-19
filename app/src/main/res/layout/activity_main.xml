@@ -1,23 +1,66 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".presentation.views.MainActivity">
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <EditText
-        android:id="@+id/et_plate"
+    <data>
+
+        <variable
+            name="view"
+            type="com.ceiba.parkinglot_adn.presentation.presenters.MainPresenter" />
+    </data>
+
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="@string/plate" />
+        android:layout_height="match_parent"
+        tools:context=".presentation.views.MainActivity">
 
-    <Button
-        android:id="@+id/bt_send"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/et_plate"
-        android:onClick="onClick"
-        android:text="@string/send" />
+        <TextView
+            android:id="@+id/tv_title"
+            style="@style/CustomTextView.Title"
+            android:text="@string/parking_lot"
+            android:textAlignment="center" />
 
-</RelativeLayout>
+        <RadioGroup
+            android:id="@+id/rg_type"
+            style="@style/CustomRadioGroup"
+            android:layout_below="@id/tv_title"
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/car" />
+
+            <RadioButton
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/motorcycle" />
+        </RadioGroup>
+
+        <EditText
+            android:id="@+id/et_plate"
+            style="@style/CustomEditText"
+            android:layout_below="@id/rg_type"
+            android:hint="@string/plate"
+            android:text="@{view.plate}" />
+
+        <EditText
+            android:id="@+id/et_cylindrical"
+            style="@style/CustomEditText"
+            android:layout_below="@id/et_plate"
+            android:hint="@string/cylindrical"
+            android:text="@{view.cylindrical}" />
+
+        <Button
+            android:id="@+id/bt_send"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/et_cylindrical"
+            android:onClick="@{() -> view.onClickSend()}"
+            android:text="@string/send" />
+
+    </RelativeLayout>
+</layout>

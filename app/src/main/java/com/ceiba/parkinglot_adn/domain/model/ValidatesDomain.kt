@@ -1,5 +1,6 @@
 package com.ceiba.parkinglot_adn.domain.model
 
+import com.ceiba.parkinglot_adn.domain.objects.MotorcycleDomain
 import com.ceiba.parkinglot_adn.tools.PRICE_CAR_DAY
 import com.ceiba.parkinglot_adn.tools.PRICE_CAR_HOUR
 
@@ -21,12 +22,12 @@ class ValidatesDomain {
         return true
     }
 
-    /*fun cylindricalIsUp(motorcycleDomain: MotorcycleDomain): Int {
-        if (motorcycleDomain.getCylindrical() > 500) {
+    fun cylindricalIsUp(motorcycleDomain: MotorcycleDomain): Int {
+        if (motorcycleDomain.cylindrical > 500) {
             return 2000
         }
         return 0
-    }*/
+    }
 
     fun totalToPay(hours: Int): Double {
         if (hours < 9) {

@@ -3,4 +3,8 @@
     <string name="plate">Plate</string>
     <string name="send">Send</string>
     <string name="field_not_empty">This field not empty</string>
+    <string name="parking_lot">Parking Lot CEIBA</string>
+    <string name="cylindrical">Cylindrical</string>
+    <string name="car">Car</string>
+    <string name="motorcycle">Motorcycle</string>
 </resources>

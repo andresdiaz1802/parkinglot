@@ -13,15 +13,22 @@ class MotorcycleRepositoryImpl(private val motorcycleDao: MotorcycleDao) : Motor
     }
 
     override fun selectAll(): List<MotorcycleDomain> {
-        return modelMapper.toMotorcycleDomain(motorcycleDao.getMotorcycles())
+        return modelMapper.toMotorcyclesDomain(motorcycleDao.selectAll())
     }
 
-    override fun select(plate: String): MotorcycleDomain {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+//    override fun select(plate: String): List<MotorcycleDomain> =
+//        modelMapper.toMotorcyclesDomain(motorcycleDao.select(plate))
+
+//    override fun delete(plate: String) {
+//        motorcycleDao.delete(plate)
+//    }
+
+    override fun deleteAll() {
+        motorcycleDao.deleteAll()
     }
 
-    override fun delete(plate: String) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
+//    override fun update(plate: String) {
+//        motorcycleDao.update(plate)
+//    }
 
 }

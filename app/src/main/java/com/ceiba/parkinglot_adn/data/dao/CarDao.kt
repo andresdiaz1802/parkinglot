@@ -1,19 +1,25 @@
 package com.ceiba.parkinglot_adn.data.dao
 
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
-import androidx.room.Query
+import androidx.room.*
 import com.ceiba.parkinglot_adn.data.entities.CarEntity
 
 @Dao
 interface CarDao {
     @Query("SELECT * FROM car")
-    fun getCars(): List<CarEntity>
+    fun selectAll(): List<CarEntity>
+
+//    @Query("SELECT * FROM car WHERE plate = :plate")
+//    fun select(plate: String): List<CarEntity>
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     fun insert(carEntity: CarEntity)
 
     @Query("DELETE FROM car")
-    suspend fun deleteAll()
+    fun deleteAll()
+
+//    @Query("DELETE FROM car WHERE plate = :plate")
+//    fun delete(plate: String)
+//
+//    @Update(onConflict = OnConflictStrategy.IGNORE)
+//    fun update(plate: String)
 }
