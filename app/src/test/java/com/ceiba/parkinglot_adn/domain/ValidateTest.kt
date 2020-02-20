@@ -12,7 +12,7 @@ class ValidateTest {
 
     @Test
     fun letterInitPlateIsATest() {
-        assertEquals(false, validate.letterInitPlateIsA("ABC234"))
+        assertEquals(true, validate.letterInitPlateIsA("ABC234"))
     }
 
     @Test
