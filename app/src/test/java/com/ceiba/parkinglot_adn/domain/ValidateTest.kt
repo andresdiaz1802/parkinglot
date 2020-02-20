@@ -18,7 +18,7 @@ class ValidateTest {
     @Test
     fun canInParkingLotForDayTest() {
         // 0 is sunday and 1 is monday
-        assertEquals(false, validate.canInParkingLotForDay(0, true))
+        assertEquals(true, validate.canInParkingLotForDay(5, "ABC123"))
     }
 
     @Test

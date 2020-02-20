@@ -7,4 +7,11 @@
     <string name="cylindrical">Cylindrical</string>
     <string name="car">Car</string>
     <string name="motorcycle">Motorcycle</string>
+    <string name="no_space">There is no space</string>
+    <string name="can_add">Can save</string>
+    <string name="invalid_plate_day">You cannot save yout vehicle today</string>
+    <string name="successfully_saved">Car successfully saved</string>
+    <string name="no_car">There are no cars</string>
+    <string name="show_cars">Show list cars</string>
+    <string name="add_motorcycle">Add motorcycle</string>
 </resources>

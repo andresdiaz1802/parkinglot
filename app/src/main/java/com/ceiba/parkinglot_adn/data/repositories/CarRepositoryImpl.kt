@@ -21,6 +21,9 @@ class CarRepositoryImpl(private val carDao: CarDao) : CarRepository {
         carDao.deleteAll()
     }
 
+    override fun count(): Int = carDao.count()
+
+
 //    override fun update(plate: String) {
 //        carDao.update(plate)
 //    }

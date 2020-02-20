@@ -1,22 +1,30 @@
 package com.ceiba.parkinglot_adn.domain.model
 
+import android.util.Log
 import com.ceiba.parkinglot_adn.domain.objects.MotorcycleDomain
-import com.ceiba.parkinglot_adn.tools.PRICE_CAR_DAY
-import com.ceiba.parkinglot_adn.tools.PRICE_CAR_HOUR
+import com.ceiba.parkinglot_adn.domain.tools.PRICE_CAR_DAY
+import com.ceiba.parkinglot_adn.domain.tools.PRICE_CAR_HOUR
 
 class ValidatesDomain {
 
-    private val LETTER_A: String = "a"
+    private val LETTER_A: Char = 'a'
 
-    fun letterInitPlateIsA(plate: String): Boolean {
-        if (plate.substring(0).toLowerCase() == LETTER_A) {
+    fun canAddToParkingLot(count: Int, total: Int): Boolean {
+        if (count < total) {
             return true
         }
         return false
     }
 
-    fun canInParkingLotForDay(day: Int, isA: Boolean): Boolean {
-        if ((day == 0 || day == 1) && isA) {
+    fun letterInitPlateIsA(plate: String): Boolean {
+        if (plate[0].equals(LETTER_A, ignoreCase = true)) {
+            return true
+        }
+        return false
+    }
+
+    fun canInParkingLotForDay(day: Int, plate: String): Boolean {
+        if ((day == 1 || day == 2) && letterInitPlateIsA(plate)) {
             return false
         }
         return true

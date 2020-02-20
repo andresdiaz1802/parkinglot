@@ -14,7 +14,7 @@ class MainActivity :
     private lateinit var mainPresenter: MainPresenter
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        mainPresenter = MainPresenter(this)
+        mainPresenter = MainPresenter(this, this)
         super.onCreate(savedInstanceState)
     }
 

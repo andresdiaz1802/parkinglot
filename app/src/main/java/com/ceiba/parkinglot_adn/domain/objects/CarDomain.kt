@@ -9,4 +9,9 @@ class CarDomain {
         this.plate = plate
     }
 
+    override fun toString(): String {
+        return "CarDomain(plate='$plate')"
+    }
+
+
 }

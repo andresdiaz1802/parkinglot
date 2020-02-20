@@ -22,4 +22,7 @@ interface CarDao {
 //
 //    @Update(onConflict = OnConflictStrategy.IGNORE)
 //    fun update(plate: String)
+
+    @Query("SELECT COUNT(plate) FROM car")
+    fun count(): Int
 }
