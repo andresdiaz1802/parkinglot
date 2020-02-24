@@ -1,7 +1,7 @@
 package com.ceiba.parkinglot_adn.domain
 
 import com.ceiba.parkinglot_adn.domain.model.ValidatesDomain
-import com.ceiba.parkinglot_adn.domain.objects.MotorcycleDomain
+import com.ceiba.parkinglot_adn.domain.objects.Motorcycle_Domain
 import org.junit.Assert.assertEquals
 import org.junit.Test
 
@@ -25,7 +25,7 @@ class ValidateTest {
     fun cylindricalIsUpTest() {
         assertEquals(
             2000, validate.cylindricalIsUp(
-                MotorcycleDomain("ABC123", 600.0)
+                Motorcycle_Domain("ABC123", 600.0)
             )
         )
     }

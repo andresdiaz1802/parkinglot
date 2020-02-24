@@ -1,34 +1,25 @@
 package com.ceiba.parkinglot_adn.data.repositories
 
-import com.ceiba.parkinglot_adn.data.dao.MotorcycleDao
-import com.ceiba.parkinglot_adn.domain.model.ModelMapper
 import com.ceiba.parkinglot_adn.domain.objects.MotorcycleDomain
 
-class MotorcycleRepositoryImpl(private val motorcycleDao: MotorcycleDao) : MotorcycleRepository {
-
-    private var modelMapper: ModelMapper = ModelMapper()
-
+class MotorcycleRepositoryImpl : Repositories.MotorcycleRepository {
     override fun insert(motorcycleDomain: MotorcycleDomain) {
-        motorcycleDao.insert(modelMapper.toMotorcycleEntity(motorcycleDomain))
+
     }
 
     override fun selectAll(): List<MotorcycleDomain> {
-        return modelMapper.toMotorcyclesDomain(motorcycleDao.selectAll())
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-//    override fun select(plate: String): List<MotorcycleDomain> =
-//        modelMapper.toMotorcyclesDomain(motorcycleDao.select(plate))
-
-//    override fun delete(plate: String) {
-//        motorcycleDao.delete(plate)
-//    }
+    override fun select(idVehicle: Int): List<MotorcycleDomain> {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
 
     override fun deleteAll() {
-        motorcycleDao.deleteAll()
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-//    override fun update(plate: String) {
-//        motorcycleDao.update(plate)
-//    }
-
+    override fun delete(idVehicle: Int) {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
 }

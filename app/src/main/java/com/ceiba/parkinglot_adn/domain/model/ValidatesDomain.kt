@@ -1,7 +1,6 @@
 package com.ceiba.parkinglot_adn.domain.model
 
-import android.util.Log
-import com.ceiba.parkinglot_adn.domain.objects.MotorcycleDomain
+import com.ceiba.parkinglot_adn.domain.objects.Motorcycle_Domain
 import com.ceiba.parkinglot_adn.domain.tools.PRICE_CAR_DAY
 import com.ceiba.parkinglot_adn.domain.tools.PRICE_CAR_HOUR
 
@@ -30,7 +29,7 @@ class ValidatesDomain {
         return true
     }
 
-    fun cylindricalIsUp(motorcycleDomain: MotorcycleDomain): Int {
+    fun cylindricalIsUp(motorcycleDomain: Motorcycle_Domain): Int {
         if (motorcycleDomain.cylindrical > 500) {
             return 2000
         }

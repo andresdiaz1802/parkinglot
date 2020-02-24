@@ -1,14 +1,13 @@
 package com.ceiba.parkinglot_adn.domain.objects
 
+import java.util.*
+
 class MotorcycleDomain {
-    lateinit var plate: String
+    var idVehicle: Int = 0
     var cylindrical: Double = 0.0
 
-
-    constructor(plate: String, cylindrical: Double) {
-        this.plate = plate
+    constructor(idVehicle: Int, cylindrical: Double) {
+        this.idVehicle = idVehicle
         this.cylindrical = cylindrical
     }
-
-    constructor()
 }
