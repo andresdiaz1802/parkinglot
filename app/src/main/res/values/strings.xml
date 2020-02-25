@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">ParkingLot-ADN</string>
     <string name="plate">Plate</string>
-    <string name="send">Send</string>
+    <string name="add">Add vehicle</string>
     <string name="field_not_empty">This field not empty</string>
     <string name="parking_lot">Parking Lot CEIBA</string>
     <string name="cylindrical">Cylindrical</string>
@@ -14,4 +14,10 @@
     <string name="no_car">There are no cars</string>
     <string name="show_cars">Show list cars</string>
     <string name="add_motorcycle">Add motorcycle</string>
+    <string name="search">Search</string>
+    <string name="get_out">Get out</string>
+    <string name="show_motorcycles">Show list motorcycles</string>
+    <string name="show_registers">Show registers</string>
+    <string name="information">Intormation</string>
+    <string name="ok">Ok</string>
 </resources>

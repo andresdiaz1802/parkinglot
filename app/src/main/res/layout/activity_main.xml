@@ -20,8 +20,8 @@
         <TextView
             android:id="@+id/tv_title"
             style="@style/CustomTextView.Title"
-            android:text="@string/parking_lot"
-            android:textAlignment="center" />
+            android:gravity="center"
+            android:text="@string/parking_lot" />
 
         <RadioGroup
             android:id="@+id/rg_type"
@@ -52,33 +52,81 @@
             android:id="@+id/et_plate"
             style="@style/CustomEditText"
             android:layout_below="@id/rg_type"
+            android:autofillHints=""
             android:hint="@string/plate"
+            android:inputType="textCapWords"
             android:text="@={view.plate}" />
 
         <EditText
             android:id="@+id/et_cylindrical"
             style="@style/CustomEditText"
             android:layout_below="@id/et_plate"
+            android:autofillHints=""
             android:hint="@string/cylindrical"
+            android:inputType="number"
             android:text="@={view.cylindrical}" />
 
-        <Button
-            android:id="@+id/bt_send"
+        <LinearLayout
+            android:id="@+id/ll_actions_crud"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/et_cylindrical"
-            android:onClick="onClick"
-            android:text="@string/send" />
+            android:layout_below="@id/et_cylindrical">
+
+            <Button
+                android:id="@+id/bt_add"
+                style="@style/CustomButton"
+                android:drawableStart="@drawable/ic_add_black_24dp"
+                android:drawableLeft="@drawable/ic_add_black_24dp"
+                android:onClick="onClick"
+                android:text="@string/add" />
+
+            <Button
+                android:id="@+id/bt_search"
+                style="@style/CustomButton"
+                android:drawableStart="@drawable/ic_search_black_24dp"
+                android:drawableLeft="@drawable/ic_search_black_24dp"
+                android:onClick="onClick"
+                android:text="@string/search" />
+
+            <Button
+                android:id="@+id/bt_get_out"
+                style="@style/CustomButton"
+                android:drawableStart="@drawable/ic_check_black_24dp"
+                android:drawableLeft="@drawable/ic_check_black_24dp"
+                android:text="@string/get_out" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_shows"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/ll_actions_crud">
+
+            <Button
+                android:id="@+id/bt_show_cars"
+                style="@style/CustomButton"
+                android:drawableTop="@drawable/ic_list_black_24dp"
+                android:onClick="onClick"
+                android:text="@string/show_cars" />
+
+            <Button
+                android:id="@+id/bt_show_motorcycles"
+                style="@style/CustomButton"
+                android:drawableTop="@drawable/ic_list_black_24dp"
+                android:onClick="onClick"
+                android:text="@string/show_motorcycles" />
+
+        </LinearLayout>
 
         <Button
-            android:id="@+id/bt_show_cars"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/bt_send"
-            android:drawableTop="@drawable/ic_list_black_24dp"
+            android:id="@+id/bt_show_registers"
+            style="@style/CustomButton"
+            android:layout_below="@id/ll_shows"
+            android:drawableStart="@drawable/ic_attach_money_black_24dp"
+            android:drawableLeft="@drawable/ic_attach_money_black_24dp"
             android:onClick="onClick"
-            android:text="@string/show_cars" />
-
+            android:text="@string/show_registers" />
 
     </RelativeLayout>
 </layout>

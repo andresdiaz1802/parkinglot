@@ -17,7 +17,7 @@ class VehicleRepositoryImpl : Repositories.VehicleRepository {
     }
 
     override fun selectAll(): List<VehicleDomain> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        return mapper.toVehiclesDomain(vehicleDao.selectAll())
     }
 
     override fun selectAllType(type: Int): List<VehicleDomain> {
@@ -25,15 +25,15 @@ class VehicleRepositoryImpl : Repositories.VehicleRepository {
     }
 
     override fun select(plate: String): List<VehicleDomain> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        return mapper.toVehiclesDomain(vehicleDao.select(plate))
     }
 
     override fun deleteAll() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        vehicleDao.deleteAll()
     }
 
     override fun delete(plate: String) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        vehicleDao.delete(plate)
     }
 
 }

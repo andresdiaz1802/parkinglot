@@ -3,11 +3,10 @@ package com.ceiba.parkinglot_adn.data.entities
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import java.util.*
 
 @Entity(tableName = "vehicles")
 class VehicleEntity(
-    @PrimaryKey
+    @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "id") val id: Int,
     @ColumnInfo(name = "plate") val plate: String,
 //    @ColumnInfo(name = "inputDate") val inputDate: Date,

@@ -1,15 +1,19 @@
 package com.ceiba.parkinglot_adn.presentation.presenters
 
+import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.MutableLiveData
 import com.ceiba.parkinglot_adn.R
+import com.ceiba.parkinglot_adn.domain.Interfaces
 import com.ceiba.parkinglot_adn.domain.model.MainModel
 import com.ceiba.parkinglot_adn.domain.objects.VehicleDomain
 import com.ceiba.parkinglot_adn.presentation.interfaces.MainInterface
 
+private const val VEHICLE = "vehicle"
+
 class MainPresenter(private val view: MainInterface.View) : MainInterface.Presenter {
 
-    private val model: MainInterface.Model = MainModel(this)
+    private val model: Interfaces.MainModel = MainModel(this)
 
     // Value 0 is car and value 1 is motorcycle
     val type: MutableLiveData<Int> by lazy { MutableLiveData<Int>() }
@@ -32,9 +36,13 @@ class MainPresenter(private val view: MainInterface.View) : MainInterface.Presen
 //        showField = true
     }
 
+    private fun getIdVehicle(type: Int): Int {
+        return if (type == R.id.rb_motorcycle) 1 else 0
+    }
+
     override fun insertVehicle(plate: String, cylindrical: String, type: Int, active: Boolean) {
         var count = 0
-        val typeVehicle = if (type == R.id.rb_motorcycle) 1 else 0
+        val typeVehicle = getIdVehicle(type)
         if (plate.isEmpty()) {
             view.showErrorPlate(R.string.field_not_empty)
         } else count++
@@ -61,8 +69,10 @@ class MainPresenter(private val view: MainInterface.View) : MainInterface.Presen
         view.hideErrorCylindrical()
     }
 
-    override fun showAllVehicles(vehicles: List<VehicleDomain>) {
-        view.showAllVehicles(vehicles)
+    override fun showAllVehicles(string: String) {
+        val args = Bundle()
+        args.putString(VEHICLE, string)
+        view.showAllVehicles(args)
     }
 
     override fun showAlertSuccess(string: String) {

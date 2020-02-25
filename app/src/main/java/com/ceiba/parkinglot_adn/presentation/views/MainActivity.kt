@@ -54,8 +54,11 @@ class MainActivity : AppCompatActivity(), MainInterface.View, View.OnClickListen
         cylindrical.error = null
     }
 
-    override fun showAllVehicles(vehicles: List<VehicleDomain>) {
-        vehicles.forEach { Log.d("MessengerLog", "Aquí va: $it") }
+    override fun showAllVehicles(args: Bundle) {
+        val dialog = InforDialog()
+        dialog.isCancelable = false
+        dialog.arguments = args
+        dialog.show(supportFragmentManager, "Information")
     }
 
     override fun showAlertSuccess(string: String) {
@@ -68,7 +71,7 @@ class MainActivity : AppCompatActivity(), MainInterface.View, View.OnClickListen
 
     override fun onClick(v: View?) {
         when (v?.id) {
-            R.id.bt_send -> {
+            R.id.bt_add -> {
                 presenter.insertVehicle(
                     plate.text.toString(),
                     cylindrical.text.toString(),
@@ -77,6 +80,9 @@ class MainActivity : AppCompatActivity(), MainInterface.View, View.OnClickListen
             }
             R.id.bt_show_cars -> {
                 presenter.consultTableVehicles(0)
+            }
+            R.id.bt_show_motorcycles -> {
+                presenter.consultTableVehicles(1)
             }
         }
     }

@@ -7,15 +7,15 @@ import com.google.gson.Gson
 class ModelMapper {
     private var gson: Gson = Gson()
 
-    private fun toString(value: Any): String {
+    fun toStringModelMapper(value: Any): String {
         return gson.toJson(value)
     }
 
     fun toVehiclesDomain(value: Any): List<VehicleDomain> {
-        return gson.fromJson(toString(value), Array<VehicleDomain>::class.java).toList()
+        return gson.fromJson(toStringModelMapper(value), Array<VehicleDomain>::class.java).toList()
     }
 
     fun toVehicleEntity(value: Any): VehicleEntity {
-        return gson.fromJson(toString(value), VehicleEntity::class.java)
+        return gson.fromJson(toStringModelMapper(value), VehicleEntity::class.java)
     }
 }
