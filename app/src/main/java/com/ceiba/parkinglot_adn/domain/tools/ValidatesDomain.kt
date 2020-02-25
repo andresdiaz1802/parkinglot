@@ -1,12 +1,10 @@
-package com.ceiba.parkinglot_adn.domain.model
+package com.ceiba.parkinglot_adn.domain.tools
 
-import com.ceiba.parkinglot_adn.domain.objects.Motorcycle_Domain
-import com.ceiba.parkinglot_adn.domain.tools.PRICE_CAR_DAY
-import com.ceiba.parkinglot_adn.domain.tools.PRICE_CAR_HOUR
+import com.ceiba.parkinglot_adn.domain.objects.MotorcycleDomain
+
+private const val LETTER_A: Char = 'a'
 
 class ValidatesDomain {
-
-    private val LETTER_A: Char = 'a'
 
     fun canAddToParkingLot(count: Int, total: Int): Boolean {
         if (count < total) {
@@ -29,7 +27,7 @@ class ValidatesDomain {
         return true
     }
 
-    fun cylindricalIsUp(motorcycleDomain: Motorcycle_Domain): Int {
+    fun cylindricalIsUp(motorcycleDomain: MotorcycleDomain): Int {
         if (motorcycleDomain.cylindrical > 500) {
             return 2000
         }

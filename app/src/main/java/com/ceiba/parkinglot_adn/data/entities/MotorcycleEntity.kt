@@ -10,14 +10,14 @@ import androidx.room.PrimaryKey
     foreignKeys = [
         ForeignKey(
             entity = VehicleEntity::class,
-            parentColumns = ["id"],
-            childColumns = ["id_vehicle"]
+            parentColumns = ["plate"],
+            childColumns = ["plate"]
         )
     ]
 )
 class MotorcycleEntity(
     @PrimaryKey
     @ColumnInfo(name = "id") val id: Int,
-    @ColumnInfo(name = "id_vehicle") val idVehicle: Int,
+    @ColumnInfo(name = "plate") val plate: Int,
     @ColumnInfo(name = "cylindrical") val cylindrical: Double
 )

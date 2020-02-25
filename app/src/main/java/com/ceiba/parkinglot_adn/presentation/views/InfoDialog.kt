@@ -13,7 +13,7 @@ import com.ceiba.parkinglot_adn.presentation.interfaces.InfoInterface
 import com.ceiba.parkinglot_adn.presentation.presenters.InfoPresenter
 import java.lang.IllegalStateException
 
-class InforDialog : DialogFragment(), InfoInterface.View {
+class InfoDialog : DialogFragment(), InfoInterface.View {
 
     private lateinit var recyclerView: RecyclerView
     private lateinit var presenter: InfoInterface.Presenter

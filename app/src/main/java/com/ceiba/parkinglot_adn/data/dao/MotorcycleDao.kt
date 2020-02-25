@@ -17,8 +17,8 @@ interface MotorcycleDao {
     @Query("SELECT * FROM motorcycles")
     fun selectAll(): List<MotorcycleEntity>
 
-    @Query("SELECT * FROM motorcycles WHERE id_vehicle=:idVehicle")
-    fun select(idVehicle: Int): List<MotorcycleEntity>
+    @Query("SELECT * FROM motorcycles WHERE plate=:plate")
+    fun select(plate: String): List<MotorcycleEntity>
 
     //Update
 
@@ -26,6 +26,6 @@ interface MotorcycleDao {
     @Query("DELETE FROM motorcycles")
     fun deleteAll()
 
-    @Query("DELETE FROM motorcycles WHERE id_vehicle=:idVehicle")
-    fun delete(idVehicle: Int)
+    @Query("DELETE FROM motorcycles WHERE plate=:plate")
+    fun delete(plate: String)
 }
