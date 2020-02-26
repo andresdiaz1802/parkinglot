@@ -5,9 +5,12 @@ import android.view.View
 import com.ceiba.parkinglot_adn.R
 import com.ceiba.parkinglot_adn.domain.Interfaces
 import com.ceiba.parkinglot_adn.domain.model.MainModel
+import com.ceiba.parkinglot_adn.domain.objects.VehicleDomain
+import com.ceiba.parkinglot_adn.domain.tools.*
 import com.ceiba.parkinglot_adn.presentation.interfaces.MainInterface
 
 private const val VEHICLE = "vehicle"
+private const val REGISTER = "register"
 
 class MainPresenter(private val view: MainInterface.View) : MainInterface.Presenter {
 
@@ -33,7 +36,26 @@ class MainPresenter(private val view: MainInterface.View) : MainInterface.Presen
                 view.showErrorCylindrical(R.string.field_not_empty)
             } else count++
         } else count++
-        if (count == 3) model.insertVehicle(site, plate, cylindrical, typeVehicle, active)
+        if (count == 3) model.insertVehicle(site.toInt(), plate, cylindrical, typeVehicle, active)
+    }
+
+    override fun deleteVehicle(plate: String) {
+        if (plate.isEmpty()) {
+            view.showErrorPlate(R.string.field_not_empty)
+        } else {
+            model.deleteVehicle(plate)
+        }
+    }
+
+    override fun showVehicle(vehicleDomain: VehicleDomain) {
+        view.showVehicle(vehicleDomain)
+    }
+
+    override fun consultVehicle(plate: String) {
+        if (plate.isEmpty()) {
+            view.showErrorPlate(R.string.field_not_empty)
+        }
+        model.consultVehicle(plate)
     }
 
     override fun showAllVehicles(string: String) {
@@ -45,7 +67,13 @@ class MainPresenter(private val view: MainInterface.View) : MainInterface.Presen
     override fun showAlert(string: String) {
         view.showAlert(
             when (string) {
-                "no_space" -> R.string.no_space
+                SUCCESS -> R.string.successfully_saved
+                NO_SPACE -> R.string.no_space
+                NO_PERMISSION -> R.string.no_permission
+                SITE_OCCUPIED -> R.string.site_occupied
+                PLATE_EXIST -> R.string.plate_exist
+                PLATE_NOT_EXIST -> R.string.plate_not_exist
+                EMPTY -> R.string.empty
                 else -> R.string.error
             }
         )
@@ -68,5 +96,9 @@ class MainPresenter(private val view: MainInterface.View) : MainInterface.Presen
 
     override fun consultTableVehicles(type: Int) {
         model.consultTableVehicles(type)
+    }
+
+    override fun showTotalToPay(string: String) {
+        view.showTotalToPay(string)
     }
 }

@@ -21,16 +21,19 @@ interface VehicleDao {
     fun selectAllType(type: Int): List<VehicleEntity>
 
     @Query("SELECT * FROM vehicles WHERE plate=:plate")
-    fun select(plate: String): List<VehicleEntity>
+    fun select(plate: String): VehicleEntity
 
     @Query("SELECT * FROM vehicles WHERE site=:site")
     fun selectSite(site: Int): List<VehicleEntity>
 
-    @Query("SELECT COUNT(*) FROM vehicles WHERE site=:site")
-    fun countInSite(site: Int): Int
+    @Query("SELECT COUNT(*) FROM vehicles WHERE site=:site LIMIT 1")
+    fun isOccupied(site: Int): Boolean
 
     @Query("SELECT COUNT(*) FROM vehicles WHERE type=:type")
     fun count(type: Int): Int
+
+    @Query("SELECT COUNT(*) FROM vehicles WHERE plate=:plate LIMIT 1")
+    fun exist(plate: String): Boolean
 
     // Update
 

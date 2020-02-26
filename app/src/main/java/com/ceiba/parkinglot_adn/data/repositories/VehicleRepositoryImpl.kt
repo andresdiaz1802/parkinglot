@@ -2,8 +2,8 @@ package com.ceiba.parkinglot_adn.data.repositories
 
 import com.ceiba.parkinglot_adn.data.ParkingLotRoomDatabase
 import com.ceiba.parkinglot_adn.data.dao.VehicleDao
-import com.ceiba.parkinglot_adn.domain.tools.ModelMapper
 import com.ceiba.parkinglot_adn.domain.objects.VehicleDomain
+import com.ceiba.parkinglot_adn.domain.tools.ModelMapper
 import com.ceiba.parkinglot_adn.presentation.base.BaseApplication
 
 class VehicleRepositoryImpl : Repositories.VehicleRepository {
@@ -25,20 +25,24 @@ class VehicleRepositoryImpl : Repositories.VehicleRepository {
         return mapper.toVehiclesDomain(vehicleDao.selectAllType(type))
     }
 
-    override fun select(plate: String): List<VehicleDomain> {
-        return mapper.toVehiclesDomain(vehicleDao.select(plate))
+    override fun select(plate: String): VehicleDomain {
+        return mapper.toVehicleDomain(vehicleDao.select(plate))
     }
 
     override fun selectSite(site: Int): List<VehicleDomain> {
         return mapper.toVehiclesDomain(vehicleDao.selectSite(site))
     }
 
-    override fun countInSite(site: Int): Int {
-        return vehicleDao.countInSite(site)
+    override fun isOccupied(site: Int): Boolean {
+        return vehicleDao.isOccupied(site)
     }
 
     override fun count(type: Int): Int {
         return vehicleDao.count(type)
+    }
+
+    override fun exist(plate: String): Boolean {
+        return vehicleDao.exist(plate)
     }
 
     override fun deleteAll() {

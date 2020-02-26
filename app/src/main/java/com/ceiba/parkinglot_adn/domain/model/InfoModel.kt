@@ -11,7 +11,12 @@ class InfoModel(private val presenter: InfoInterface.Presenter) :
     private val gson: Gson = Gson()
 
     override fun extractList(string: String) {
-        presenter.addAdapterVehicle(gson.fromJson(string, Array<VehicleDomain>::class.java).toList())
+        presenter.addAdapterVehicle(
+            gson.fromJson(
+                string,
+                Array<VehicleDomain>::class.java
+            ).toList()
+        )
     }
 
 }

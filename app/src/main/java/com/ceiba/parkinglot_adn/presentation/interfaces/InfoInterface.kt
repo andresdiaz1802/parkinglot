@@ -1,6 +1,5 @@
 package com.ceiba.parkinglot_adn.presentation.interfaces
 
-import android.os.Bundle
 import com.ceiba.parkinglot_adn.domain.objects.VehicleDomain
 
 interface InfoInterface {

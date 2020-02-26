@@ -18,7 +18,7 @@ interface MotorcycleDao {
     fun selectAll(): List<MotorcycleEntity>
 
     @Query("SELECT * FROM motorcycles WHERE plate=:plate")
-    fun select(plate: String): List<MotorcycleEntity>
+    fun select(plate: String): MotorcycleEntity
 
     //Update
 

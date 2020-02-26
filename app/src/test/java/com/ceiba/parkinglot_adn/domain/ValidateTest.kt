@@ -17,7 +17,12 @@ class ValidateTest {
     @Test
     fun canInParkingLotForDayTest() {
         // 0 is sunday and 1 is monday
-        assertEquals(true, validate.canInParkingLotForDay(5, "ABC123"))
+        assertEquals(true, validate.canInParkingLotForDay(1, "ABC123"))
+        assertEquals(true, validate.canInParkingLotForDay(2, "ABC123"))
+        assertEquals(false, validate.canInParkingLotForDay(5, "ABC123"))
+        assertEquals(true, validate.canInParkingLotForDay(1, "HBC123"))
+        assertEquals(true, validate.canInParkingLotForDay(2, "HBC123"))
+        assertEquals(true, validate.canInParkingLotForDay(5, "HBC123"))
     }
 
     @Test
@@ -31,6 +36,12 @@ class ValidateTest {
 
     @Test
     fun totalToPayTest() {
-        assertEquals(5000.0, validate.totalToPay(5), 0.0)
+        assertEquals(8000, validate.totalToPay(10, 0))
+        assertEquals(3000, validate.totalToPay(3, 0))
+        assertEquals(7000, validate.totalToPay(7, 0))
+        assertEquals(8000, validate.totalToPay(10, 0))
+        assertEquals(14000, validate.totalToPay(30, 0))
+        assertEquals(40000, validate.totalToPay(120, 0))
+        assertEquals(40000, validate.totalToPay(120, 0))
     }
 }

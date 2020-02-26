@@ -17,10 +17,10 @@ class MotorcycleRepositoryImpl : Repositories.MotorcycleRepository {
     }
 
     override fun selectAll(): List<MotorcycleDomain> {
-        return mapper.toMotorcycleDomain(motorcycleDao.selectAll())
+        return mapper.toMotorcyclesDomain(motorcycleDao.selectAll())
     }
 
-    override fun select(plate: String): List<MotorcycleDomain> {
+    override fun select(plate: String): MotorcycleDomain {
         return mapper.toMotorcycleDomain(motorcycleDao.select(plate))
     }
 

@@ -5,13 +5,11 @@ import android.app.Dialog
 import android.os.Bundle
 import androidx.fragment.app.DialogFragment
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.ceiba.parkinglot_adn.R
 import com.ceiba.parkinglot_adn.domain.objects.VehicleDomain
 import com.ceiba.parkinglot_adn.presentation.interfaces.InfoInterface
 import com.ceiba.parkinglot_adn.presentation.presenters.InfoPresenter
-import java.lang.IllegalStateException
 
 class InfoDialog : DialogFragment(), InfoInterface.View {
 

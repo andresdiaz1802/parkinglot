@@ -9,10 +9,11 @@ interface Repositories {
         fun insert(vehicleDomain: VehicleDomain): Long
         fun selectAll(): List<VehicleDomain>
         fun selectAllType(type: Int): List<VehicleDomain>
-        fun select(plate: String): List<VehicleDomain>
+        fun select(plate: String): VehicleDomain
         fun selectSite(site: Int): List<VehicleDomain>
-        fun countInSite(site: Int): Int
+        fun isOccupied(site: Int): Boolean
         fun count(type: Int): Int
+        fun exist(plate: String): Boolean
         fun deleteAll()
         fun delete(plate: String)
     }
@@ -20,16 +21,17 @@ interface Repositories {
     interface MotorcycleRepository {
         fun insert(motorcycleDomain: MotorcycleDomain)
         fun selectAll(): List<MotorcycleDomain>
-        fun select(plate: String): List<MotorcycleDomain>
+        fun select(plate: String): MotorcycleDomain
         fun deleteAll()
         fun delete(plate: String)
     }
 
     interface RegisterRepository {
-        fun insert(registerDomain: RegisterDomain)
+        fun insert(registerDomain: RegisterDomain): Long
         fun selectAll(): List<RegisterDomain>
         fun select(plate: String): List<RegisterDomain>
         fun deleteAll()
         fun delete(plate: String)
+        fun exist(): Boolean
     }
 }

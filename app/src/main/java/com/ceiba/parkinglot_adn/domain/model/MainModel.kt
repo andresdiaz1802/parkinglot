@@ -6,14 +6,10 @@ import com.ceiba.parkinglot_adn.data.repositories.VehicleRepositoryImpl
 import com.ceiba.parkinglot_adn.domain.Interfaces
 import com.ceiba.parkinglot_adn.domain.objects.MotorcycleDomain
 import com.ceiba.parkinglot_adn.domain.objects.VehicleDomain
-import com.ceiba.parkinglot_adn.domain.tools.ModelMapper
-import com.ceiba.parkinglot_adn.domain.tools.TOTAL_CAR
-import com.ceiba.parkinglot_adn.domain.tools.TOTAL_MOTORCYCLE
-import com.ceiba.parkinglot_adn.domain.tools.ValidatesDomain
+import com.ceiba.parkinglot_adn.domain.tools.*
 import com.ceiba.parkinglot_adn.presentation.interfaces.MainInterface
 import java.util.*
 
-private const val NO_SPACE = "no_space"
 
 class MainModel(private val presenter: MainInterface.Presenter) : Interfaces.MainModel {
 
@@ -23,23 +19,68 @@ class MainModel(private val presenter: MainInterface.Presenter) : Interfaces.Mai
     private val validatesDomain: ValidatesDomain = ValidatesDomain()
 
     override fun insertVehicle(
-        site: String, plate: String, cylindrical: String, type: Int, active: Boolean
+        site: Int, plate: String, cylindrical: String, type: Int, active: Boolean
     ) {
-        if (validatesDomain.canAddToParkingLot(
-                vehicleRepository.count(type),
-                if (type == 0) TOTAL_CAR else TOTAL_MOTORCYCLE
+        if (!validatesDomain.canAddToParkingLot(
+                vehicleRepository.count(type), if (type == 0) TOTAL_CAR else TOTAL_MOTORCYCLE
             )
         ) {
-            val id = vehicleRepository.insert(VehicleDomain(plate, Date(), type, active)).toInt()
-            if (id != -1) {
-                if (type == 1) {
-                    motorcycleRepository.insert(MotorcycleDomain(id, cylindrical.toDouble()))
-                }
-                presenter.showAlert("Success")
-            } else presenter.showAlert("Error")
-        } else {
             presenter.showAlert(NO_SPACE)
+            return
         }
+        if (!validatesDomain.canInParkingLotForDay(5, plate)) {
+            presenter.showAlert(NO_PERMISSION)
+            return
+        }
+        if (vehicleRepository.exist(plate)) {
+            presenter.showAlert(PLATE_EXIST)
+            return
+        }
+        if (vehicleRepository.isOccupied(site)) {
+            presenter.showAlert(SITE_OCCUPIED)
+            return
+        }
+        val status = vehicleRepository.insert(VehicleDomain(plate, Date().time, type, site)).toInt()
+        if (status == -1) {
+            presenter.showAlert(ERROR)
+            return
+        }
+        if (type == 1) {
+            motorcycleRepository.insert(MotorcycleDomain(plate, cylindrical.toDouble()))
+            // Validar cuando no se cree eliminando el vehiculo para no tener problemas
+        }
+        presenter.showAlert(SUCCESS)
+    }
+
+    private fun validateExist(plate: String): Boolean {
+        if (!vehicleRepository.exist(plate)) {
+            presenter.showAlert(PLATE_NOT_EXIST)
+            return true
+        }
+        return false
+    }
+
+    override fun consultVehicle(plate: String) {
+        if (validateExist(plate)) {
+            return
+        }
+        val vehicleDomain = vehicleRepository.select(plate)
+        presenter.showVehicle(vehicleDomain)
+    }
+
+    override fun deleteVehicle(plate: String) {
+        if (validateExist(plate)) {
+            return
+        }
+        val vehicleDomain = vehicleRepository.select(plate)
+        var plus = 0
+        if (vehicleDomain.type == ID_MOTORCYCLE) {
+            val motorcycleDomain = motorcycleRepository.select(plate)
+            plus += validatesDomain.cylindricalIsUp(motorcycleDomain.cylindrical)
+        }
+        val price = validatesDomain.totalToPay(vehicleDomain.toHour(), vehicleDomain.type) + plus
+        presenter.showTotalToPay("The value to be paid is of $price")
+        vehicleRepository.delete(plate)
     }
 
     override fun consultTableVehicles(type: Int) {

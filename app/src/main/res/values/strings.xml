@@ -25,4 +25,10 @@
     <string name="type">Type</string>
     <string name="send">Send</string>
     <string name="error">Error</string>
+    <string name="no_permission">You cannot enter today</string>
+    <string name="site_occupied">This space is already occupied</string>
+    <string name="plate_exist">This vehicle is already registered</string>
+    <string name="date_admission">Date of admission</string>
+    <string name="plate_not_exist">This vehicle is not registered</string>
+    <string name="empty">This list is empty</string>
 </resources>

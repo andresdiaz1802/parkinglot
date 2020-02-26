@@ -1,14 +1,17 @@
 package com.ceiba.parkinglot_adn.presentation.views
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.EditText
 import android.widget.RadioGroup
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.ceiba.parkinglot_adn.R
+import com.ceiba.parkinglot_adn.domain.objects.VehicleDomain
 import com.ceiba.parkinglot_adn.presentation.interfaces.MainInterface
 import com.ceiba.parkinglot_adn.presentation.presenters.MainPresenter
+import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity(), MainInterface.View, View.OnClickListener {
 
@@ -74,23 +77,43 @@ class MainActivity : AppCompatActivity(), MainInterface.View, View.OnClickListen
         site.visibility = View.VISIBLE
         plate.visibility = View.VISIBLE
         cylindrical.visibility = if (flag) View.VISIBLE else View.GONE
+        rg_type.visibility = View.VISIBLE
     }
 
     override fun actionSearchOrGetOut() {
         site.visibility = View.GONE
         plate.visibility = View.VISIBLE
         cylindrical.visibility = View.GONE
+        rg_type.visibility = View.GONE
+    }
+
+    override fun showTotalToPay(string: String) {
+        Toast.makeText(this, string, Toast.LENGTH_LONG).show()
+    }
+
+    override fun showVehicle(vehicleDomain: VehicleDomain) {
+        Toast.makeText(this, vehicleDomain.plate, Toast.LENGTH_LONG).show()
     }
 
     override fun onClick(v: View?) {
         when (v?.id) {
             R.id.bt_send -> {
-                presenter.insertVehicle(
-                    site.text.toString(),
-                    plate.text.toString(),
-                    cylindrical.text.toString(),
-                    type.checkedRadioButtonId
-                )
+                when (action.checkedRadioButtonId) {
+                    R.id.rb_add -> {
+                        presenter.insertVehicle(
+                            site.text.toString(),
+                            plate.text.toString(),
+                            cylindrical.text.toString(),
+                            type.checkedRadioButtonId
+                        )
+                    }
+                    R.id.rb_search -> {
+                        presenter.consultVehicle(plate.text.toString())
+                    }
+                    R.id.rb_get_out -> {
+                        presenter.deleteVehicle(plate.text.toString())
+                    }
+                }
             }
             R.id.bt_show_cars -> {
                 presenter.consultTableVehicles(0)
