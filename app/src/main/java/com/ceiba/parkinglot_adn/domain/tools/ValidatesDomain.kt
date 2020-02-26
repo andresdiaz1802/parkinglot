@@ -5,10 +5,7 @@ private const val LETTER_A: Char = 'a'
 class ValidatesDomain {
 
     fun canAddToParkingLot(count: Int, total: Int): Boolean {
-        if (count < total) {
-            return true
-        }
-        return false
+        return count in 0 until total
     }
 
     fun letterInitPlateIsA(plate: String): Boolean {

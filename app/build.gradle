@@ -89,6 +89,8 @@ dependencies {
 
     testImplementation 'junit:junit:4.12'
     testImplementation 'org.robolectric:robolectric:4.2.1'
+    // Optional -- Mockito framework
+    testImplementation 'org.mockito:mockito-core:1.10.19'
 
     // Room components
     implementation "androidx.room:room-runtime:$rootProject.roomVersion"
