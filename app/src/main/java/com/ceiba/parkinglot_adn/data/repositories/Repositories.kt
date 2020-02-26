@@ -1,7 +1,6 @@
 package com.ceiba.parkinglot_adn.data.repositories
 
 import com.ceiba.parkinglot_adn.domain.objects.MotorcycleDomain
-import com.ceiba.parkinglot_adn.domain.objects.RegisterDomain
 import com.ceiba.parkinglot_adn.domain.objects.VehicleDomain
 
 interface Repositories {
@@ -24,14 +23,5 @@ interface Repositories {
         fun select(plate: String): MotorcycleDomain
         fun deleteAll()
         fun delete(plate: String)
-    }
-
-    interface RegisterRepository {
-        fun insert(registerDomain: RegisterDomain): Long
-        fun selectAll(): List<RegisterDomain>
-        fun select(plate: String): List<RegisterDomain>
-        fun deleteAll()
-        fun delete(plate: String)
-        fun exist(): Boolean
     }
 }

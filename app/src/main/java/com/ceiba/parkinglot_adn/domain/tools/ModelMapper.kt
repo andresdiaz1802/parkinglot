@@ -4,10 +4,18 @@ import com.ceiba.parkinglot_adn.data.entities.MotorcycleEntity
 import com.ceiba.parkinglot_adn.data.entities.VehicleEntity
 import com.ceiba.parkinglot_adn.domain.objects.MotorcycleDomain
 import com.ceiba.parkinglot_adn.domain.objects.VehicleDomain
+import com.ceiba.parkinglot_adn.presentation.base.BaseApplication
 import com.google.gson.Gson
+import javax.inject.Inject
 
 class ModelMapper {
-    private var gson: Gson = Gson()
+
+    @Inject
+    lateinit var gson: Gson
+
+    init {
+        BaseApplication.getApplicationComponent()?.inject(this)
+    }
 
     fun toStringModelMapper(value: Any): String {
         return gson.toJson(value)

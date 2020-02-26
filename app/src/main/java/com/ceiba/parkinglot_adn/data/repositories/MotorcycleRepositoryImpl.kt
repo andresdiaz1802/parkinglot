@@ -1,16 +1,16 @@
 package com.ceiba.parkinglot_adn.data.repositories
 
-import com.ceiba.parkinglot_adn.data.ParkingLotRoomDatabase
 import com.ceiba.parkinglot_adn.data.dao.MotorcycleDao
 import com.ceiba.parkinglot_adn.domain.objects.MotorcycleDomain
 import com.ceiba.parkinglot_adn.domain.tools.ModelMapper
-import com.ceiba.parkinglot_adn.presentation.base.BaseApplication
+import javax.inject.Inject
 
 class MotorcycleRepositoryImpl : Repositories.MotorcycleRepository {
 
-    private val motorcycleDao: MotorcycleDao =
-        ParkingLotRoomDatabase.getDatabase(BaseApplication.getContext()).motorcycleDao()
-    private val mapper: ModelMapper = ModelMapper()
+    @Inject
+    lateinit var motorcycleDao: MotorcycleDao
+    @Inject
+    lateinit var mapper: ModelMapper
 
     override fun insert(motorcycleDomain: MotorcycleDomain) {
         motorcycleDao.insert(mapper.toMotorcycleEntity(motorcycleDomain))

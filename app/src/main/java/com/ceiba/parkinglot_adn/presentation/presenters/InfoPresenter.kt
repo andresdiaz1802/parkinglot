@@ -7,7 +7,9 @@ import com.ceiba.parkinglot_adn.presentation.interfaces.InfoInterface
 
 class InfoPresenter(private val view: InfoInterface.View) :
     InfoInterface.Presenter {
+
     private val model: Interfaces.InfoModel = InfoModel(this)
+
     override fun addAdapterVehicle(vehicles: List<VehicleDomain>) {
         view.addAdapterVehicle(vehicles)
     }

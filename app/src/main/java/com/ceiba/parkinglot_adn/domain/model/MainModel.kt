@@ -1,22 +1,30 @@
 package com.ceiba.parkinglot_adn.domain.model
 
-import com.ceiba.parkinglot_adn.data.repositories.MotorcycleRepositoryImpl
 import com.ceiba.parkinglot_adn.data.repositories.Repositories
-import com.ceiba.parkinglot_adn.data.repositories.VehicleRepositoryImpl
 import com.ceiba.parkinglot_adn.domain.Interfaces
 import com.ceiba.parkinglot_adn.domain.objects.MotorcycleDomain
 import com.ceiba.parkinglot_adn.domain.objects.VehicleDomain
 import com.ceiba.parkinglot_adn.domain.tools.*
+import com.ceiba.parkinglot_adn.presentation.base.BaseApplication
 import com.ceiba.parkinglot_adn.presentation.interfaces.MainInterface
 import java.util.*
+import javax.inject.Inject
 
 
 class MainModel(private val presenter: MainInterface.Presenter) : Interfaces.MainModel {
 
-    private val vehicleRepository: Repositories.VehicleRepository = VehicleRepositoryImpl()
-    private val motorcycleRepository: Repositories.MotorcycleRepository = MotorcycleRepositoryImpl()
-    private val modelMapper = ModelMapper()
-    private val validatesDomain: ValidatesDomain = ValidatesDomain()
+    @Inject
+    lateinit var vehicleRepository: Repositories.VehicleRepository
+    @Inject
+    lateinit var motorcycleRepository: Repositories.MotorcycleRepository
+    @Inject
+    lateinit var modelMapper: ModelMapper
+    @Inject
+    lateinit var validatesDomain: ValidatesDomain
+
+    init {
+        BaseApplication.getApplicationComponent()?.inject(this)
+    }
 
     override fun insertVehicle(
         site: Int, plate: String, cylindrical: String, type: Int, active: Boolean
