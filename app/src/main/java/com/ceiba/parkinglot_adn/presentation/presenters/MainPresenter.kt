@@ -4,10 +4,11 @@ import android.os.Bundle
 import android.view.View
 import com.ceiba.parkinglot_adn.R
 import com.ceiba.parkinglot_adn.domain.interfaces.MainModelInterface
-import com.ceiba.parkinglot_adn.domain.model.MainModel
+import com.ceiba.parkinglot_adn.domain.services.MainModel
 import com.ceiba.parkinglot_adn.domain.objects.VehicleDomain
 import com.ceiba.parkinglot_adn.presentation.interfaces.MainActivityInterface
 import com.ceiba.parkinglot_adn.presentation.interfaces.MainPresenterInterface
+import java.io.Serializable
 
 private const val VEHICLE = "vehicle"
 private const val NO_SPACE = "no_space"
@@ -64,9 +65,9 @@ class MainPresenter(private val view: MainActivityInterface) : MainPresenterInte
         model.consultVehicle(plate)
     }
 
-    override fun showAllVehicles(string: String) {
+    override fun showAllVehicles(vehicles: List<VehicleDomain>) {
         val args = Bundle()
-        args.putString(VEHICLE, string)
+        args.putSerializable(VEHICLE, vehicles as Serializable)
         view.showAllVehicles(args)
     }
 

@@ -12,6 +12,8 @@ import com.ceiba.parkinglot_adn.presentation.interfaces.InfoActivityInterface
 import com.ceiba.parkinglot_adn.presentation.interfaces.InfoPresenterInterface
 import com.ceiba.parkinglot_adn.presentation.presenters.InfoPresenter
 
+private const val VEHICLE = "vehicle"
+
 class InfoDialog : DialogFragment(), InfoActivityInterface {
 
     private lateinit var recyclerView: RecyclerView
@@ -28,7 +30,8 @@ class InfoDialog : DialogFragment(), InfoActivityInterface {
                 layoutManager = GridLayoutManager(context, 2)
             }
             presenter = InfoPresenter(this)
-            arguments?.getString("vehicle")?.let { it1 -> presenter.extractList(it1) }
+            arguments?.getSerializable(VEHICLE)
+                ?.let { it1 -> (presenter as InfoPresenter).extractList(it1 as List<VehicleDomain>) }
             builder.setView(view)
                 .setPositiveButton(R.string.ok, null)
             builder.create()

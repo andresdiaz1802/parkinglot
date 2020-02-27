@@ -1,4 +1,4 @@
-package com.ceiba.parkinglot_adn.domain.model
+package com.ceiba.parkinglot_adn.domain.services
 
 import com.ceiba.parkinglot_adn.domain.interfaces.InfoModelInterface
 import com.ceiba.parkinglot_adn.domain.objects.VehicleDomain
@@ -7,7 +7,7 @@ import com.ceiba.parkinglot_adn.presentation.interfaces.InfoPresenterInterface
 import com.google.gson.Gson
 import javax.inject.Inject
 
-class InfoModel(private val presenter: InfoPresenterInterface) :
+class InfoService(private val presenter: InfoPresenterInterface) :
     InfoModelInterface {
 
     @Inject
@@ -17,13 +17,8 @@ class InfoModel(private val presenter: InfoPresenterInterface) :
         BaseApplication.getApplicationComponent()?.inject(this)
     }
 
-    override fun extractList(string: String) {
-        presenter.addAdapterVehicle(
-            gson.fromJson(
-                string,
-                Array<VehicleDomain>::class.java
-            ).toList()
-        )
+    override fun extractList(vehicles: List<VehicleDomain>) {
+        presenter.addAdapterVehicle(vehicles)
     }
 
 }

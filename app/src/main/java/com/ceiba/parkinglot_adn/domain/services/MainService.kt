@@ -1,4 +1,4 @@
-package com.ceiba.parkinglot_adn.domain.model
+package com.ceiba.parkinglot_adn.domain.services
 
 import com.ceiba.parkinglot_adn.domain.TOTAL_CAR
 import com.ceiba.parkinglot_adn.domain.TOTAL_MOTORCYCLE
@@ -8,7 +8,6 @@ import com.ceiba.parkinglot_adn.domain.interfaces.MotorcycleRepositoryInterface
 import com.ceiba.parkinglot_adn.domain.interfaces.VehicleRepositoryInterface
 import com.ceiba.parkinglot_adn.domain.objects.MotorcycleDomain
 import com.ceiba.parkinglot_adn.domain.objects.VehicleDomain
-import com.ceiba.parkinglot_adn.domain.tools.ModelMapper
 import com.ceiba.parkinglot_adn.presentation.base.BaseApplication
 import com.ceiba.parkinglot_adn.presentation.interfaces.MainPresenterInterface
 import java.util.*
@@ -30,8 +29,6 @@ class MainModel(private val presenter: MainPresenterInterface) : MainModelInterf
     lateinit var vehicleRepository: VehicleRepositoryInterface
     @Inject
     lateinit var motorcycleRepository: MotorcycleRepositoryInterface
-    @Inject
-    lateinit var modelMapper: ModelMapper
     @Inject
     lateinit var validatesDomain: ValidatesDomain
 
@@ -105,8 +102,6 @@ class MainModel(private val presenter: MainPresenterInterface) : MainModelInterf
     }
 
     override fun consultTableVehicles(type: Int) {
-        presenter.showAllVehicles(
-            modelMapper.toStringModelMapper(vehicleRepository.selectAllType(type))
-        )
+        presenter.showAllVehicles(vehicleRepository.selectAllType(type))
     }
 }

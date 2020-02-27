@@ -1,5 +1,6 @@
 package com.ceiba.parkinglot_adn.domain.objects
 
+import java.io.Serializable
 import java.util.*
 import java.util.concurrent.TimeUnit
 

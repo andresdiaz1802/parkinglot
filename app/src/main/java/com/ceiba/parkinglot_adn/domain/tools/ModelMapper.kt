@@ -17,7 +17,7 @@ class ModelMapper {
         BaseApplication.getApplicationComponent()?.inject(this)
     }
 
-    fun toStringModelMapper(value: Any): String {
+    private fun toStringModelMapper(value: Any): String {
         return gson.toJson(value)
     }
 
