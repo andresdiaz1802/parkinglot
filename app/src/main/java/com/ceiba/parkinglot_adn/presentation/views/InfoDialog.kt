@@ -8,13 +8,14 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.ceiba.parkinglot_adn.R
 import com.ceiba.parkinglot_adn.domain.objects.VehicleDomain
-import com.ceiba.parkinglot_adn.presentation.interfaces.InfoInterface
+import com.ceiba.parkinglot_adn.presentation.interfaces.InfoActivityInterface
+import com.ceiba.parkinglot_adn.presentation.interfaces.InfoPresenterInterface
 import com.ceiba.parkinglot_adn.presentation.presenters.InfoPresenter
 
-class InfoDialog : DialogFragment(), InfoInterface.View {
+class InfoDialog : DialogFragment(), InfoActivityInterface {
 
     private lateinit var recyclerView: RecyclerView
-    private lateinit var presenter: InfoInterface.Presenter
+    private lateinit var presenter: InfoPresenterInterface
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         return activity?.let {

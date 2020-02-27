@@ -3,18 +3,24 @@ package com.ceiba.parkinglot_adn.presentation.presenters
 import android.os.Bundle
 import android.view.View
 import com.ceiba.parkinglot_adn.R
-import com.ceiba.parkinglot_adn.domain.Interfaces
+import com.ceiba.parkinglot_adn.domain.interfaces.MainModelInterface
 import com.ceiba.parkinglot_adn.domain.model.MainModel
 import com.ceiba.parkinglot_adn.domain.objects.VehicleDomain
-import com.ceiba.parkinglot_adn.domain.tools.*
-import com.ceiba.parkinglot_adn.presentation.interfaces.MainInterface
+import com.ceiba.parkinglot_adn.presentation.interfaces.MainActivityInterface
+import com.ceiba.parkinglot_adn.presentation.interfaces.MainPresenterInterface
 
 private const val VEHICLE = "vehicle"
-private const val REGISTER = "register"
+private const val NO_SPACE = "no_space"
+private const val NO_PERMISSION = "no_permission"
+private const val SUCCESS = "success"
+private const val SITE_OCCUPIED = "site_occupied"
+private const val PLATE_EXIST = "plate_exist"
+private const val PLATE_NOT_EXIST = "plate_not_exist"
+private const val EMPTY = "empty"
 
-class MainPresenter(private val view: MainInterface.View) : MainInterface.Presenter {
+class MainPresenter(private val view: MainActivityInterface) : MainPresenterInterface {
 
-    private val model: Interfaces.MainModel = MainModel(this)
+    private val model: MainModelInterface = MainModel(this)
 
     private fun getIdVehicle(type: Int): Int {
         return if (type == R.id.rb_motorcycle) 1 else 0

@@ -1,6 +1,10 @@
-package com.ceiba.parkinglot_adn.domain.tools
+package com.ceiba.parkinglot_adn.domain.business_logic
 
 private const val LETTER_A: Char = 'a'
+private const val PRICE_CAR_HOUR = 1000
+private const val PRICE_MOTORCYCLE_HOUR = 500
+private const val PRICE_CAR_DAY = 8000
+private const val PRICE_MOTORCYCLE_DAY = 4000
 
 class ValidatesDomain {
 

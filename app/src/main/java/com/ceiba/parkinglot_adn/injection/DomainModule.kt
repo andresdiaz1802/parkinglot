@@ -1,7 +1,7 @@
 package com.ceiba.parkinglot_adn.injection
 
 import com.ceiba.parkinglot_adn.domain.tools.ModelMapper
-import com.ceiba.parkinglot_adn.domain.tools.ValidatesDomain
+import com.ceiba.parkinglot_adn.domain.business_logic.ValidatesDomain
 import com.google.gson.Gson
 import dagger.Module
 import dagger.Provides
@@ -13,7 +13,8 @@ class DomainModule {
     fun instanceModelMapper(): ModelMapper = ModelMapper()
 
     @Provides
-    fun instanceValidatiesDomain(): ValidatesDomain = ValidatesDomain()
+    fun instanceValidatiesDomain(): ValidatesDomain =
+        ValidatesDomain()
 
     @Provides
     fun instanceGson(): Gson = Gson()

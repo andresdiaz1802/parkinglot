@@ -1,14 +1,14 @@
 package com.ceiba.parkinglot_adn.domain.model
 
-import com.ceiba.parkinglot_adn.domain.Interfaces
+import com.ceiba.parkinglot_adn.domain.interfaces.InfoModelInterface
 import com.ceiba.parkinglot_adn.domain.objects.VehicleDomain
 import com.ceiba.parkinglot_adn.presentation.base.BaseApplication
-import com.ceiba.parkinglot_adn.presentation.interfaces.InfoInterface
+import com.ceiba.parkinglot_adn.presentation.interfaces.InfoPresenterInterface
 import com.google.gson.Gson
 import javax.inject.Inject
 
-class InfoModel(private val presenter: InfoInterface.Presenter) :
-    Interfaces.InfoModel {
+class InfoModel(private val presenter: InfoPresenterInterface) :
+    InfoModelInterface {
 
     @Inject
     lateinit var gson: Gson

@@ -1,23 +1,34 @@
 package com.ceiba.parkinglot_adn.domain
 
-import com.ceiba.parkinglot_adn.domain.tools.TOTAL_CAR
-import com.ceiba.parkinglot_adn.domain.tools.TOTAL_MOTORCYCLE
-import com.ceiba.parkinglot_adn.domain.tools.ValidatesDomain
+import com.ceiba.parkinglot_adn.domain.business_logic.ValidatesDomain
 import org.junit.Assert.assertEquals
 import org.junit.Test
 
 class ValidateTest {
 
-    private val validate = ValidatesDomain()
+    private val validate =
+        ValidatesDomain()
 
     @Test
     fun canAddToParkingLotTest() {
-        assertEquals(true, validate.canAddToParkingLot(1, TOTAL_CAR))
-        assertEquals(false, validate.canAddToParkingLot(20, TOTAL_CAR))
-        assertEquals(false, validate.canAddToParkingLot(-1, TOTAL_CAR))
-        assertEquals(true, validate.canAddToParkingLot(1, TOTAL_MOTORCYCLE))
-        assertEquals(false, validate.canAddToParkingLot(10, TOTAL_MOTORCYCLE))
-        assertEquals(false, validate.canAddToParkingLot(-1, TOTAL_MOTORCYCLE))
+        assertEquals(true, validate.canAddToParkingLot(1,
+            TOTAL_CAR
+        ))
+        assertEquals(false, validate.canAddToParkingLot(20,
+            TOTAL_CAR
+        ))
+        assertEquals(false, validate.canAddToParkingLot(-1,
+            TOTAL_CAR
+        ))
+        assertEquals(true, validate.canAddToParkingLot(1,
+            TOTAL_MOTORCYCLE
+        ))
+        assertEquals(false, validate.canAddToParkingLot(10,
+            TOTAL_MOTORCYCLE
+        ))
+        assertEquals(false, validate.canAddToParkingLot(-1,
+            TOTAL_MOTORCYCLE
+        ))
     }
 
     @Test

@@ -1,22 +1,35 @@
 package com.ceiba.parkinglot_adn.domain.model
 
-import com.ceiba.parkinglot_adn.data.repositories.Repositories
-import com.ceiba.parkinglot_adn.domain.Interfaces
+import com.ceiba.parkinglot_adn.domain.TOTAL_CAR
+import com.ceiba.parkinglot_adn.domain.TOTAL_MOTORCYCLE
+import com.ceiba.parkinglot_adn.domain.business_logic.ValidatesDomain
+import com.ceiba.parkinglot_adn.domain.interfaces.MainModelInterface
+import com.ceiba.parkinglot_adn.domain.interfaces.MotorcycleRepositoryInterface
+import com.ceiba.parkinglot_adn.domain.interfaces.VehicleRepositoryInterface
 import com.ceiba.parkinglot_adn.domain.objects.MotorcycleDomain
 import com.ceiba.parkinglot_adn.domain.objects.VehicleDomain
-import com.ceiba.parkinglot_adn.domain.tools.*
+import com.ceiba.parkinglot_adn.domain.tools.ModelMapper
 import com.ceiba.parkinglot_adn.presentation.base.BaseApplication
-import com.ceiba.parkinglot_adn.presentation.interfaces.MainInterface
+import com.ceiba.parkinglot_adn.presentation.interfaces.MainPresenterInterface
 import java.util.*
 import javax.inject.Inject
 
+private const val NO_SPACE = "no_space"
+private const val SUCCESS = "success"
+private const val ERROR = "error"
+private const val NO_PERMISSION = "no_permission"
+private const val SITE_OCCUPIED = "site_occupied"
+private const val PLATE_EXIST = "plate_exist"
+private const val PLATE_NOT_EXIST = "plate_not_exist"
 
-class MainModel(private val presenter: MainInterface.Presenter) : Interfaces.MainModel {
+private const val ID_MOTORCYCLE = 1
+
+class MainModel(private val presenter: MainPresenterInterface) : MainModelInterface {
 
     @Inject
-    lateinit var vehicleRepository: Repositories.VehicleRepository
+    lateinit var vehicleRepository: VehicleRepositoryInterface
     @Inject
-    lateinit var motorcycleRepository: Repositories.MotorcycleRepository
+    lateinit var motorcycleRepository: MotorcycleRepositoryInterface
     @Inject
     lateinit var modelMapper: ModelMapper
     @Inject

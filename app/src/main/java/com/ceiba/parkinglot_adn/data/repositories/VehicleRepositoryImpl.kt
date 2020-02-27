@@ -1,12 +1,13 @@
 package com.ceiba.parkinglot_adn.data.repositories
 
 import com.ceiba.parkinglot_adn.data.dao.VehicleDao
+import com.ceiba.parkinglot_adn.domain.interfaces.VehicleRepositoryInterface
 import com.ceiba.parkinglot_adn.domain.objects.VehicleDomain
 import com.ceiba.parkinglot_adn.domain.tools.ModelMapper
 import com.ceiba.parkinglot_adn.presentation.base.BaseApplication
 import javax.inject.Inject
 
-class VehicleRepositoryImpl : Repositories.VehicleRepository {
+class VehicleRepositoryImpl : VehicleRepositoryInterface {
 
     @Inject
     lateinit var vehicleDao: VehicleDao

@@ -8,11 +8,12 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.ceiba.parkinglot_adn.R
 import com.ceiba.parkinglot_adn.domain.objects.VehicleDomain
-import com.ceiba.parkinglot_adn.presentation.interfaces.MainInterface
+import com.ceiba.parkinglot_adn.presentation.interfaces.MainActivityInterface
+import com.ceiba.parkinglot_adn.presentation.interfaces.MainPresenterInterface
 import com.ceiba.parkinglot_adn.presentation.presenters.MainPresenter
 import kotlinx.android.synthetic.main.activity_main.*
 
-class MainActivity : AppCompatActivity(), MainInterface.View, View.OnClickListener {
+class MainActivity : AppCompatActivity(), MainActivityInterface, View.OnClickListener {
 
     private lateinit var site: EditText
     private lateinit var plate: EditText
@@ -20,7 +21,7 @@ class MainActivity : AppCompatActivity(), MainInterface.View, View.OnClickListen
     private lateinit var type: RadioGroup
     private lateinit var action: RadioGroup
 
-    private lateinit var presenter: MainInterface.Presenter
+    private lateinit var presenter: MainPresenterInterface
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
