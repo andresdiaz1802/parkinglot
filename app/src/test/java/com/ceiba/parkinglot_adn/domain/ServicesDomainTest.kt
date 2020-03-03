@@ -336,6 +336,7 @@ class ServicesDomainTest {
         `when`(vehicle.type).thenReturn(ID_MOTORCYCLE)
         `when`(motorcycleRepository.select(plate)).thenReturn(motorcycle)
         `when`(motorcycle.cylindrical).thenReturn(800.0)
+        `when`(validatesDomain.cylindricalIsUp(motorcycle.cylindrical)).thenReturn(2000)
         `when`(validatesDomain.totalToPay(vehicle.toHour(), vehicle.type)).thenReturn(8000)
         // Act
         val result = mainService.deleteVehicle(plate)
