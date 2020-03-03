@@ -6,8 +6,6 @@ import org.junit.Test
 
 class ValidateTest {
 
-    private val validate = ValidatesDomain()
-
     @Test
     fun addCarWithOneInside() {
         val validate = ValidatesDomain()

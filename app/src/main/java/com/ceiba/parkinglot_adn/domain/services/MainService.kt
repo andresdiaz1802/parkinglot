@@ -54,8 +54,8 @@ class MainService : MainServiceInterface {
         if (vehicleRepository.isOccupied(site)) {
             return SITE_OCCUPIED
         }
-        val status = vehicleRepository.insert(VehicleDomain(plate, Date().time, type, site)).toInt()
-        if (status == -1) {
+        val status = vehicleRepository.insert(VehicleDomain(plate, Date().time, type, site))
+        if (status == -1L) {
             return ERROR
         }
         if (type == 1) {
