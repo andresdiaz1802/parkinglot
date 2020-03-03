@@ -3,7 +3,7 @@ package com.ceiba.parkinglot_adn.domain.services
 import com.ceiba.parkinglot_adn.domain.TOTAL_CAR
 import com.ceiba.parkinglot_adn.domain.TOTAL_MOTORCYCLE
 import com.ceiba.parkinglot_adn.domain.business_logic.ValidatesDomain
-import com.ceiba.parkinglot_adn.domain.interfaces.MainModelInterface
+import com.ceiba.parkinglot_adn.domain.interfaces.MainServiceInterface
 import com.ceiba.parkinglot_adn.domain.interfaces.MotorcycleRepositoryInterface
 import com.ceiba.parkinglot_adn.domain.interfaces.VehicleRepositoryInterface
 import com.ceiba.parkinglot_adn.domain.objects.MotorcycleDomain
@@ -23,7 +23,7 @@ private const val PLATE_NOT_EXIST = "plate_not_exist"
 
 private const val ID_MOTORCYCLE = 1
 
-class MainModel(private val presenter: MainPresenterInterface) : MainModelInterface {
+class MainService : MainServiceInterface {
 
     @Inject
     lateinit var vehicleRepository: VehicleRepositoryInterface
@@ -38,57 +38,50 @@ class MainModel(private val presenter: MainPresenterInterface) : MainModelInterf
 
     override fun insertVehicle(
         site: Int, plate: String, cylindrical: String, type: Int, active: Boolean
-    ) {
+    ): String {
         if (!validatesDomain.canAddToParkingLot(
                 vehicleRepository.count(type), if (type == 0) TOTAL_CAR else TOTAL_MOTORCYCLE
             )
         ) {
-            presenter.showAlert(NO_SPACE)
-            return
+            return NO_SPACE
         }
         if (!validatesDomain.canInParkingLotForDay(5, plate)) {
-            presenter.showAlert(NO_PERMISSION)
-            return
+            return NO_PERMISSION
         }
         if (vehicleRepository.exist(plate)) {
-            presenter.showAlert(PLATE_EXIST)
-            return
+            return PLATE_EXIST
         }
         if (vehicleRepository.isOccupied(site)) {
-            presenter.showAlert(SITE_OCCUPIED)
-            return
+            return SITE_OCCUPIED
         }
         val status = vehicleRepository.insert(VehicleDomain(plate, Date().time, type, site)).toInt()
         if (status == -1) {
-            presenter.showAlert(ERROR)
-            return
+            return ERROR
         }
         if (type == 1) {
             motorcycleRepository.insert(MotorcycleDomain(plate, cylindrical.toDouble()))
             // Validar cuando no se cree eliminando el vehiculo para no tener problemas
         }
-        presenter.showAlert(SUCCESS)
+        return SUCCESS
     }
 
     private fun validateExist(plate: String): Boolean {
         if (!vehicleRepository.exist(plate)) {
-            presenter.showAlert(PLATE_NOT_EXIST)
             return true
         }
         return false
     }
 
-    override fun consultVehicle(plate: String) {
+    override fun consultVehicle(plate: String): VehicleDomain? {
         if (validateExist(plate)) {
-            return
+            return null
         }
-        val vehicleDomain = vehicleRepository.select(plate)
-        presenter.showVehicle(vehicleDomain)
+        return vehicleRepository.select(plate)
     }
 
-    override fun deleteVehicle(plate: String) {
+    override fun deleteVehicle(plate: String): String? {
         if (validateExist(plate)) {
-            return
+            return null
         }
         val vehicleDomain = vehicleRepository.select(plate)
         var plus = 0
@@ -97,11 +90,14 @@ class MainModel(private val presenter: MainPresenterInterface) : MainModelInterf
             plus += validatesDomain.cylindricalIsUp(motorcycleDomain.cylindrical)
         }
         val price = validatesDomain.totalToPay(vehicleDomain.toHour(), vehicleDomain.type) + plus
-        presenter.showTotalToPay("The value to be paid is of $price")
         vehicleRepository.delete(plate)
+        return "The value to be paid is of $price"
     }
 
-    override fun consultTableVehicles(type: Int) {
-        presenter.showAllVehicles(vehicleRepository.selectAllType(type))
+    override fun consultTableVehicles(type: Int): List<VehicleDomain>? {
+        if (!vehicleRepository.existType(type)){
+            return null
+        }
+        return vehicleRepository.selectAllType(type)
     }
 }

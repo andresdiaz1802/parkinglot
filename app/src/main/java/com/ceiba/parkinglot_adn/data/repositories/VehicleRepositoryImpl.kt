@@ -50,6 +50,10 @@ class VehicleRepositoryImpl : VehicleRepositoryInterface {
         return vehicleDao.exist(plate)
     }
 
+    override fun existType(type: Int): Boolean {
+        return vehicleDao.existType(type)
+    }
+
     override fun deleteAll() {
         vehicleDao.deleteAll()
     }

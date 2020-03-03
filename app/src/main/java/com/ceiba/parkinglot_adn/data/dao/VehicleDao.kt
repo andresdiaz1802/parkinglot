@@ -35,6 +35,9 @@ interface VehicleDao {
     @Query("SELECT COUNT(*) FROM vehicles WHERE plate=:plate LIMIT 1")
     fun exist(plate: String): Boolean
 
+    @Query("SELECT COUNT(*) FROM vehicles WHERE type=:type LIMIT 1")
+    fun existType(type: Int):Boolean
+
     // Update
 
     // Delete

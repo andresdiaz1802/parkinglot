@@ -9,10 +9,8 @@ interface MainPresenterInterface {
     )
 
     fun deleteVehicle(plate: String)
-    fun showVehicle(vehicleDomain: VehicleDomain)
     fun consultVehicle(plate: String)
     fun showAllVehicles(vehicles: List<VehicleDomain>)
-    fun showAlert(string: String)
     fun stateAction(idAction: Int, idType: Int)
     fun stateFieldCylindrical(type: Int)
     fun consultTableVehicles(type: Int)

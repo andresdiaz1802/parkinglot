@@ -8,23 +8,30 @@ private const val PRICE_MOTORCYCLE_DAY = 4000
 
 class ValidatesDomain {
 
-    fun canAddToParkingLot(count: Int, total: Int): Boolean {
+    fun canAddToParkingLot(count: Int?, total: Int): Boolean {
         return count in 0 until total
     }
 
-    fun letterInitPlateIsA(plate: String): Boolean {
+    fun letterInitPlateIsA(plate: String?): Boolean {
+        if (plate == null) return false
         return plate[0].equals(LETTER_A, ignoreCase = true)
     }
 
-    fun canInParkingLotForDay(day: Int, plate: String): Boolean {
-        return if (letterInitPlateIsA(plate)) day == 1 || day == 2 else true
+    fun canInParkingLotForDay(day: Int?, plate: String?): Boolean {
+        if (day == -1 || day == null) return false
+        if (plate == null) return false
+        val initLetter = letterInitPlateIsA(plate)
+        val isDay = day in 1..2
+        return if (initLetter) isDay else true
     }
 
-    fun cylindricalIsUp(cylindrical: Double): Int {
+    fun cylindricalIsUp(cylindrical: Double?): Int {
+        if (cylindrical == null || cylindrical < 0) return 0
         return if (cylindrical > 500) 2000 else 0
     }
 
-    fun totalToPay(hours: Int, type: Int): Int {
+    fun totalToPay(hours: Int?, type: Int): Int {
+        if (hours == null || hours < 0) return 0
         val priceHour = if (type == 0) PRICE_CAR_HOUR else PRICE_MOTORCYCLE_HOUR
         val priceDay = if (type == 0) PRICE_CAR_DAY else PRICE_MOTORCYCLE_DAY
         if (hours < 9) return hours * priceHour

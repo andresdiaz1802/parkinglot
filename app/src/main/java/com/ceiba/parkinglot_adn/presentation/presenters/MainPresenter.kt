@@ -3,9 +3,9 @@ package com.ceiba.parkinglot_adn.presentation.presenters
 import android.os.Bundle
 import android.view.View
 import com.ceiba.parkinglot_adn.R
-import com.ceiba.parkinglot_adn.domain.interfaces.MainModelInterface
-import com.ceiba.parkinglot_adn.domain.services.MainModel
+import com.ceiba.parkinglot_adn.domain.interfaces.MainServiceInterface
 import com.ceiba.parkinglot_adn.domain.objects.VehicleDomain
+import com.ceiba.parkinglot_adn.domain.services.MainService
 import com.ceiba.parkinglot_adn.presentation.interfaces.MainActivityInterface
 import com.ceiba.parkinglot_adn.presentation.interfaces.MainPresenterInterface
 import java.io.Serializable
@@ -21,7 +21,7 @@ private const val EMPTY = "empty"
 
 class MainPresenter(private val view: MainActivityInterface) : MainPresenterInterface {
 
-    private val model: MainModelInterface = MainModel(this)
+    private val service: MainServiceInterface = MainService()
 
     private fun getIdVehicle(type: Int): Int {
         return if (type == R.id.rb_motorcycle) 1 else 0
@@ -43,47 +43,51 @@ class MainPresenter(private val view: MainActivityInterface) : MainPresenterInte
                 view.showErrorCylindrical(R.string.field_not_empty)
             } else count++
         } else count++
-        if (count == 3) model.insertVehicle(site.toInt(), plate, cylindrical, typeVehicle, active)
+        if (count == 3) {
+            val status =
+                service.insertVehicle(site.toInt(), plate, cylindrical, typeVehicle, active)
+            view.showAlert(
+                when (status) {
+                    SUCCESS -> R.string.successfully_saved
+                    NO_SPACE -> R.string.no_space
+                    NO_PERMISSION -> R.string.no_permission
+                    SITE_OCCUPIED -> R.string.site_occupied
+                    PLATE_EXIST -> R.string.plate_exist
+                    PLATE_NOT_EXIST -> R.string.plate_not_exist
+                    EMPTY -> R.string.empty
+                    else -> R.string.error
+                }
+            )
+        }
     }
 
     override fun deleteVehicle(plate: String) {
         if (plate.isEmpty()) {
             view.showErrorPlate(R.string.field_not_empty)
         } else {
-            model.deleteVehicle(plate)
+            val response = service.deleteVehicle(plate)
+            if (response == null) {
+                view.showAlert(R.string.not_delete)
+            } else {
+                view.showTotalToPay(response)
+            }
         }
-    }
-
-    override fun showVehicle(vehicleDomain: VehicleDomain) {
-        view.showVehicle(vehicleDomain)
     }
 
     override fun consultVehicle(plate: String) {
         if (plate.isEmpty()) {
             view.showErrorPlate(R.string.field_not_empty)
+            return
         }
-        model.consultVehicle(plate)
+        val vehicle = service.consultVehicle(plate)
+        if (vehicle != null) view.run { showVehicle(vehicle) }
+        else view.showAlert(R.string.no_car)
     }
 
     override fun showAllVehicles(vehicles: List<VehicleDomain>) {
         val args = Bundle()
         args.putSerializable(VEHICLE, vehicles as Serializable)
         view.showAllVehicles(args)
-    }
-
-    override fun showAlert(string: String) {
-        view.showAlert(
-            when (string) {
-                SUCCESS -> R.string.successfully_saved
-                NO_SPACE -> R.string.no_space
-                NO_PERMISSION -> R.string.no_permission
-                SITE_OCCUPIED -> R.string.site_occupied
-                PLATE_EXIST -> R.string.plate_exist
-                PLATE_NOT_EXIST -> R.string.plate_not_exist
-                EMPTY -> R.string.empty
-                else -> R.string.error
-            }
-        )
     }
 
     override fun stateAction(idAction: Int, idType: Int) {
@@ -102,7 +106,9 @@ class MainPresenter(private val view: MainActivityInterface) : MainPresenterInte
     }
 
     override fun consultTableVehicles(type: Int) {
-        model.consultTableVehicles(type)
+        val vehicles = service.consultTableVehicles(type)
+        if (vehicles != null) this.showAllVehicles(vehicles)
+        else view.showAlert(R.string.no_car)
     }
 
     override fun showTotalToPay(string: String) {

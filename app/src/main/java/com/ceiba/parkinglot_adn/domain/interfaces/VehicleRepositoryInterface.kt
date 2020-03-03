@@ -11,6 +11,7 @@ interface VehicleRepositoryInterface {
     fun isOccupied(site: Int): Boolean
     fun count(type: Int): Int
     fun exist(plate: String): Boolean
+    fun existType(type: Int): Boolean
     fun deleteAll()
     fun delete(plate: String)
 }

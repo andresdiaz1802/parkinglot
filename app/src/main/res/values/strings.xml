@@ -31,4 +31,5 @@
     <string name="date_admission">Date of admission</string>
     <string name="plate_not_exist">This vehicle is not registered</string>
     <string name="empty">This list is empty</string>
+    <string name="not_delete">It is not possible to delete</string>
 </resources>
