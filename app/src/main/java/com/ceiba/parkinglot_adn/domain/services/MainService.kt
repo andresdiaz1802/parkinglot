@@ -9,7 +9,6 @@ import com.ceiba.parkinglot_adn.domain.interfaces.VehicleRepositoryInterface
 import com.ceiba.parkinglot_adn.domain.objects.MotorcycleDomain
 import com.ceiba.parkinglot_adn.domain.objects.VehicleDomain
 import com.ceiba.parkinglot_adn.presentation.base.BaseApplication
-import com.ceiba.parkinglot_adn.presentation.interfaces.MainPresenterInterface
 import java.util.*
 import javax.inject.Inject
 
@@ -87,7 +86,9 @@ class MainService : MainServiceInterface {
         var plus = 0
         if (vehicleDomain.type == ID_MOTORCYCLE) {
             val motorcycleDomain = motorcycleRepository.select(plate)
-            plus += validatesDomain.cylindricalIsUp(motorcycleDomain.cylindrical)
+            if (motorcycleDomain != null) {
+                plus += validatesDomain.cylindricalIsUp(motorcycleDomain.cylindrical)
+            }
         }
         val price = validatesDomain.totalToPay(vehicleDomain.toHour(), vehicleDomain.type) + plus
         vehicleRepository.delete(plate)
@@ -95,7 +96,7 @@ class MainService : MainServiceInterface {
     }
 
     override fun consultTableVehicles(type: Int): List<VehicleDomain>? {
-        if (!vehicleRepository.existType(type)){
+        if (!vehicleRepository.existType(type)) {
             return null
         }
         return vehicleRepository.selectAllType(type)

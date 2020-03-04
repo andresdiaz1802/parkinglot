@@ -4,6 +4,7 @@ import com.ceiba.parkinglot_adn.data.dao.MotorcycleDao
 import com.ceiba.parkinglot_adn.domain.interfaces.MotorcycleRepositoryInterface
 import com.ceiba.parkinglot_adn.domain.objects.MotorcycleDomain
 import com.ceiba.parkinglot_adn.domain.tools.ModelMapper
+import com.ceiba.parkinglot_adn.presentation.base.BaseApplication
 import javax.inject.Inject
 
 class MotorcycleRepositoryImpl : MotorcycleRepositoryInterface {
@@ -13,6 +14,10 @@ class MotorcycleRepositoryImpl : MotorcycleRepositoryInterface {
     @Inject
     lateinit var mapper: ModelMapper
 
+    init {
+        BaseApplication.getApplicationComponent()?.inject(this)
+    }
+
     override fun insert(motorcycleDomain: MotorcycleDomain) {
         motorcycleDao.insert(mapper.toMotorcycleEntity(motorcycleDomain))
     }
@@ -21,8 +26,10 @@ class MotorcycleRepositoryImpl : MotorcycleRepositoryInterface {
         return mapper.toMotorcyclesDomain(motorcycleDao.selectAll())
     }
 
-    override fun select(plate: String): MotorcycleDomain {
-        return mapper.toMotorcycleDomain(motorcycleDao.select(plate))
+    override fun select(plate: String): MotorcycleDomain? {
+        val motorcycle = motorcycleDao.select(plate)
+        return if (motorcycle != null) mapper.toMotorcycleDomain(motorcycle)
+        else null
     }
 
     override fun deleteAll() {
