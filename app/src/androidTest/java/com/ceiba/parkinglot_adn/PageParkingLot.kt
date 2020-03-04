@@ -58,6 +58,10 @@ class PageParkingLot {
     }
 
     fun clickInButtonOkInDialog() {
-        onView(withText(R.string.ok)).perform(click())
+        try {
+            onView(withText(R.string.ok)).perform(click())
+        } catch (e: Exception) {
+
+        }
     }
 }
