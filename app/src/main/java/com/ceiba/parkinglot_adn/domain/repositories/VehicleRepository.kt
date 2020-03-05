@@ -1,9 +1,9 @@
-package com.ceiba.parkinglot_adn.domain.interfaces
+package com.ceiba.parkinglot_adn.domain.repositories
 
 import com.ceiba.parkinglot_adn.domain.objects.VehicleDomain
 
-interface VehicleRepositoryInterface {
-    fun insert(vehicleDomain: VehicleDomain): Long
+interface VehicleRepository {
+    fun insert(vehicleDomain: VehicleDomain): Int
     fun selectAll(): List<VehicleDomain>
     fun selectAllType(type: Int): List<VehicleDomain>
     fun select(plate: String): VehicleDomain

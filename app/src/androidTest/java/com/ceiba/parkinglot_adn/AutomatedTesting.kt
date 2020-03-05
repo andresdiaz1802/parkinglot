@@ -15,7 +15,7 @@ class AutomatedTesting {
     @get:Rule
     val activityRule = ActivityTestRule(MainActivity::class.java)
 
-    private val pageParkingLot = PageParkingLot()
+    private val pageParkingLot = ParkingLotPage()
 
     @Test
     fun registerCarWithFieldsEmpty() {

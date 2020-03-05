@@ -1,4 +1,4 @@
-package com.ceiba.parkinglot_adn.domain.business_logic
+package com.ceiba.parkinglot_adn.domain.businesslogic
 
 private const val LETTER_A: Char = 'a'
 private const val PRICE_CAR_HOUR = 1000

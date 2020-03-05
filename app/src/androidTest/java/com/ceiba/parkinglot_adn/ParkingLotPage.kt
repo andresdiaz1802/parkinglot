@@ -5,7 +5,7 @@ import androidx.test.espresso.action.ViewActions.*
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers.*
 
-class PageParkingLot {
+class ParkingLotPage {
 
     fun selectActionAddVehicle() {
         onView(withId(R.id.rb_add)).perform(click()).check(matches(isDisplayed()))

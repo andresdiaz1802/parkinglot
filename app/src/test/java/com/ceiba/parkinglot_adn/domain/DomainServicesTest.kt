@@ -1,19 +1,21 @@
 package com.ceiba.parkinglot_adn.domain
 
-import com.ceiba.parkinglot_adn.domain.business_logic.ValidatesDomain
-import com.ceiba.parkinglot_adn.domain.interfaces.MotorcycleRepositoryInterface
-import com.ceiba.parkinglot_adn.domain.interfaces.VehicleRepositoryInterface
+import com.ceiba.parkinglot_adn.domain.businesslogic.ValidatesDomain
 import com.ceiba.parkinglot_adn.domain.objects.MotorcycleDomain
 import com.ceiba.parkinglot_adn.domain.objects.VehicleDomain
-import com.ceiba.parkinglot_adn.domain.services.MainService
+import com.ceiba.parkinglot_adn.domain.repositories.MotorcycleRepository
+import com.ceiba.parkinglot_adn.domain.repositories.VehicleRepository
+import com.ceiba.parkinglot_adn.domain.services.MainServiceImpl
 import org.junit.Assert.assertEquals
+import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
-import org.mockito.InjectMocks
 import org.mockito.Mock
 import org.mockito.Mockito.`when`
 import org.mockito.junit.MockitoJUnit
 import org.mockito.junit.MockitoRule
+import java.util.*
+import kotlin.collections.ArrayList
 
 private const val NO_SPACE = "no_space"
 private const val NO_PERMISSION = "no_permission"
@@ -23,31 +25,26 @@ private const val ERROR = "error"
 private const val SUCCESS = "success"
 private const val ID_MOTORCYCLE = 1
 
-class ServicesDomainTest {
+class DomainServicesTest {
 
     @get:Rule
     var mockitoRule: MockitoRule? = MockitoJUnit.rule()
 
-    @InjectMocks
-    lateinit var mainService: MainService
+    @Mock
+    lateinit var vehicleRepository: VehicleRepository
 
     @Mock
-    lateinit var validatesDomain: ValidatesDomain
+    lateinit var motorcycleRepository: MotorcycleRepository
 
-    @Mock
-    lateinit var vehicleRepository: VehicleRepositoryInterface
+    private lateinit var validatesDomain: ValidatesDomain
 
-    @Mock
-    lateinit var motorcycleRepository: MotorcycleRepositoryInterface
+    lateinit var mainService: MainServiceImpl
 
-    @Mock
-    lateinit var vehicle: VehicleDomain
-
-    @Mock
-    lateinit var motorcycle: MotorcycleDomain
-
-    @Mock
-    lateinit var vehicles: List<VehicleDomain>
+    @Before
+    fun setup() {
+        validatesDomain = ValidatesDomain()
+        mainService = MainServiceImpl(vehicleRepository, motorcycleRepository, validatesDomain)
+    }
 
     @Test
     fun insertCarFailedForSpace() {
@@ -56,8 +53,7 @@ class ServicesDomainTest {
         val plate = "ABC123"
         val cylindrical = "0"
         val site = 0
-        `when`(validatesDomain.canAddToParkingLot(vehicleRepository.count(type), TOTAL_CAR))
-            .thenReturn(false)
+        `when`(vehicleRepository.count(type)).thenReturn(20)
         // Act
         val result = mainService.insertVehicle(site, plate, cylindrical, type)
         // Assert
@@ -72,9 +68,7 @@ class ServicesDomainTest {
         val cylindrical = "0"
         val site = 0
         val day = 5
-        `when`(validatesDomain.canAddToParkingLot(vehicleRepository.count(type), TOTAL_CAR))
-            .thenReturn(true)
-        `when`(validatesDomain.canInParkingLotForDay(day, plate)).thenReturn(false)
+        `when`(vehicleRepository.count(type)).thenReturn(2)
         // Act
         val result = mainService.insertVehicle(site, plate, cylindrical, type)
         // Assert
@@ -85,13 +79,11 @@ class ServicesDomainTest {
     fun insertCarFailedForPlateExist() {
         // Arrange
         val type = 0
-        val plate = "ABC123"
+        val plate = "HBC123"
         val cylindrical = "0"
         val site = 0
         val day = 5
-        `when`(validatesDomain.canAddToParkingLot(vehicleRepository.count(type), TOTAL_CAR))
-            .thenReturn(true)
-        `when`(validatesDomain.canInParkingLotForDay(day, plate)).thenReturn(true)
+        `when`(vehicleRepository.count(type)).thenReturn(2)
         `when`(vehicleRepository.exist(plate)).thenReturn(true)
         // Act
         val result = mainService.insertVehicle(site, plate, cylindrical, type)
@@ -103,13 +95,11 @@ class ServicesDomainTest {
     fun insertCarFailedForSiteOccupied() {
         // Arrange
         val type = 0
-        val plate = "ABC123"
+        val plate = "HBC123"
         val cylindrical = "0"
         val site = 0
         val day = 5
-        `when`(validatesDomain.canAddToParkingLot(vehicleRepository.count(type), TOTAL_CAR))
-            .thenReturn(true)
-        `when`(validatesDomain.canInParkingLotForDay(day, plate)).thenReturn(true)
+        `when`(vehicleRepository.count(type)).thenReturn(2)
         `when`(vehicleRepository.exist(plate)).thenReturn(false)
         `when`(vehicleRepository.isOccupied(site)).thenReturn(true)
         // Act
@@ -118,52 +108,42 @@ class ServicesDomainTest {
         assertEquals(SITE_OCCUPIED, result)
     }
 
-//    @Test
-//    fun insertCarFailedForInsertDAO() {
-//        /**
-//         * Revisar este test
-//         */
-//        // Arrange
-//        val type = 0
-//        val plate = "ABC123"
-//        val cylindrical = "0"
-//        val site = 0
-//        val day = 5
-//        val status = -1
-//        `when`(validatesDomain.canAddToParkingLot(vehicleRepository.count(type), TOTAL_CAR))
-//            .thenReturn(true)
-//        `when`(validatesDomain.canInParkingLotForDay(day, plate)).thenReturn(true)
-//        `when`(vehicleRepository.exist(plate)).thenReturn(false)
-//        `when`(vehicleRepository.isOccupied(site)).thenReturn(false)
-//        `when`(vehicleRepository.insert(vehicle)).thenReturn(1L)
-//        // Act
-//        val result =
-//            mainService.insertVehicle(site, plate, cylindrical, type)
-//        // Assert
-//        assertEquals(ERROR, result)
-//    }
+    @Test
+    fun insertCarFailedForInsertDAO() {
+        // Arrange
+        val type = 0
+        val plate = "HBC123"
+        val cylindrical = "0"
+        val site = 0
+        val day = 5
+        val vehicleDomain = VehicleDomain(plate, Date().time, type, site)
+        `when`(vehicleRepository.count(type)).thenReturn(2)
+        `when`(vehicleRepository.exist(plate)).thenReturn(false)
+        `when`(vehicleRepository.isOccupied(site)).thenReturn(false)
+        `when`(vehicleRepository.insert(vehicleDomain)).thenReturn(0)
+        // Act
+        val result = mainService.insertVehicle(site, plate, cylindrical, type)
+        // Assert
+        assertEquals(ERROR, result)
+    }
 
     @Test
     fun insertCarSuccess() {
         // Arrange
         val type = 0
-        val plate = "ABC123"
+        val plate = "HBC123"
         val cylindrical = "0"
         val site = 0
-        val day = 5
-        `when`(validatesDomain.canAddToParkingLot(vehicleRepository.count(type), TOTAL_CAR))
-            .thenReturn(true)
-        `when`(validatesDomain.canInParkingLotForDay(day, plate)).thenReturn(true)
+        val vehicleDomain = VehicleDomain(plate, Date().time, type, site)
+        `when`(vehicleRepository.count(type)).thenReturn(2)
         `when`(vehicleRepository.exist(plate)).thenReturn(false)
         `when`(vehicleRepository.isOccupied(site)).thenReturn(false)
-        `when`(vehicleRepository.insert(vehicle)).thenReturn(2L)
+        `when`(vehicleRepository.insert(vehicleDomain)).thenReturn(1)
         // Act
-        val result =
-            mainService.insertVehicle(site, plate, cylindrical, type)
+        val result = mainService.insertVehicle(site, plate, cylindrical, type)
         // Assert
         assertEquals(SUCCESS, result)
     }
-
 
     @Test
     fun insertMotorcycleFailedForSpace() {
@@ -172,8 +152,7 @@ class ServicesDomainTest {
         val plate = "ABC123"
         val cylindrical = "400"
         val site = 0
-        `when`(validatesDomain.canAddToParkingLot(vehicleRepository.count(type), TOTAL_CAR))
-            .thenReturn(false)
+        `when`(vehicleRepository.count(type)).thenReturn(10)
         // Act
         val result = mainService.insertVehicle(site, plate, cylindrical, type)
         // Assert
@@ -188,9 +167,7 @@ class ServicesDomainTest {
         val cylindrical = "600"
         val site = 0
         val day = 5
-        `when`(validatesDomain.canAddToParkingLot(vehicleRepository.count(type), TOTAL_MOTORCYCLE))
-            .thenReturn(true)
-        `when`(validatesDomain.canInParkingLotForDay(day, plate)).thenReturn(false)
+        `when`(vehicleRepository.count(type)).thenReturn(1)
         // Act
         val result = mainService.insertVehicle(site, plate, cylindrical, type)
         // Assert
@@ -201,13 +178,11 @@ class ServicesDomainTest {
     fun insertMotorcycleFailedForPlateExist() {
         // Arrange
         val type = 1
-        val plate = "ABC123"
+        val plate = "HBC123"
         val cylindrical = "600"
         val site = 0
         val day = 5
-        `when`(validatesDomain.canAddToParkingLot(vehicleRepository.count(type), TOTAL_MOTORCYCLE))
-            .thenReturn(true)
-        `when`(validatesDomain.canInParkingLotForDay(day, plate)).thenReturn(true)
+        `when`(vehicleRepository.count(type)).thenReturn(1)
         `when`(vehicleRepository.exist(plate)).thenReturn(true)
         // Act
         val result = mainService.insertVehicle(site, plate, cylindrical, type)
@@ -219,13 +194,10 @@ class ServicesDomainTest {
     fun insertMotorcycleFailedForSiteOccupied() {
         // Arrange
         val type = 1
-        val plate = "ABC123"
+        val plate = "HBC123"
         val cylindrical = "6000"
         val site = 0
-        val day = 5
-        `when`(validatesDomain.canAddToParkingLot(vehicleRepository.count(type), TOTAL_MOTORCYCLE))
-            .thenReturn(true)
-        `when`(validatesDomain.canInParkingLotForDay(day, plate)).thenReturn(true)
+        `when`(vehicleRepository.count(type)).thenReturn(1)
         `when`(vehicleRepository.exist(plate)).thenReturn(false)
         `when`(vehicleRepository.isOccupied(site)).thenReturn(true)
         // Act
@@ -258,26 +230,27 @@ class ServicesDomainTest {
 //        assertEquals(ERROR, result)
 //    }
 
-    @Test
-    fun insertMotorcycleSuccess() {
-        // Arrange
-        val type = 1
-        val plate = "ABC123"
-        val cylindrical = "200"
-        val site = 0
-        val day = 5
-        `when`(validatesDomain.canAddToParkingLot(vehicleRepository.count(type), TOTAL_MOTORCYCLE))
-            .thenReturn(true)
-        `when`(validatesDomain.canInParkingLotForDay(day, plate)).thenReturn(true)
-        `when`(vehicleRepository.exist(plate)).thenReturn(false)
-        `when`(vehicleRepository.isOccupied(site)).thenReturn(false)
-        `when`(vehicleRepository.insert(vehicle)).thenReturn(2L)
-        // Act
-        val result =
-            mainService.insertVehicle(site, plate, cylindrical, type)
-        // Assert
-        assertEquals(SUCCESS, result)
-    }
+//    @Test
+//    fun insertMotorcycleSuccess() {
+//        // Arrange
+//        val type = 1
+//        val plate = "ABC123"
+//        val cylindrical = "200"
+//        val site = 0
+//        val day = 5
+//        `when`(validatesDomain.canAddToParkingLot(vehicleRepository.count(type), TOTAL_MOTORCYCLE))
+//            .thenReturn(true)
+//        `when`(validatesDomain.canInParkingLotForDay(day, plate)).thenReturn(true)
+//        `when`(vehicleRepository.exist(plate)).thenReturn(false)
+//        `when`(vehicleRepository.isOccupied(site)).thenReturn(false)
+//        `when`(vehicleRepository.insert(VehicleDomain(plate, Date().time, type, site)))
+//            .thenReturn(1L)
+//        // Act
+//        val result =
+//            mainServiceImpl.insertVehicle(site, plate, cylindrical, type)
+//        // Assert
+//        assertEquals(SUCCESS, result)
+//    }
 
     @Test
     fun consultVehicleWithPlateNull() {
@@ -293,13 +266,16 @@ class ServicesDomainTest {
     @Test
     fun consultVehicleWithPlateSuccess() {
         // Arrange
+        val type = 1
         val plate = "ABC123"
+        val site = 0
+        val vehicleDomain = VehicleDomain(plate, Date().time, type, site)
         `when`(vehicleRepository.exist(plate)).thenReturn(true)
-        `when`(vehicleRepository.select(plate)).thenReturn(vehicle)
+        `when`(vehicleRepository.select(plate)).thenReturn(vehicleDomain)
         // Act
         val result = mainService.consultVehicle(plate)
         // Assert
-        assertEquals(vehicle, result)
+        assertEquals(vehicleDomain, result)
     }
 
     @Test
@@ -316,48 +292,56 @@ class ServicesDomainTest {
     @Test
     fun deleteCar() {
         // Arrange
-        val plate = "ABC123"
+        val type = 0
+        val plate = "HBC123"
+        val cylindrical = "0"
+        val site = 0
+        val day = 5
+        val vehicleDomain = VehicleDomain(plate, Date().time, type, site)
         `when`(vehicleRepository.exist(plate)).thenReturn(true)
-        `when`(vehicleRepository.select(plate)).thenReturn(vehicle)
-        `when`(vehicle.type).thenReturn(0)
-        `when`(validatesDomain.totalToPay(vehicle.toHour(), vehicle.type)).thenReturn(8000)
+        `when`(vehicleRepository.select(plate)).thenReturn(vehicleDomain)
         // Act
         val result = mainService.deleteVehicle(plate)
         // Assert
-        assertEquals("The value to be paid is of 8000", result)
+        assertEquals("The value to be paid is of 1000", result)
     }
 
     @Test
     fun deleteMotorcycleCylindricalOf800() {
         // Arrange
-        val plate = "ABC123"
+        val type = 1
+        val plate = "HBC123"
+        val cylindrical = 800.0
+        val site = 0
+        val day = 5
+        val vehicle = VehicleDomain(plate, Date().time, type, site)
+        val motorcycle = MotorcycleDomain(vehicle.plate, cylindrical)
         `when`(vehicleRepository.exist(plate)).thenReturn(true)
         `when`(vehicleRepository.select(plate)).thenReturn(vehicle)
-        `when`(vehicle.type).thenReturn(ID_MOTORCYCLE)
         `when`(motorcycleRepository.select(plate)).thenReturn(motorcycle)
-        `when`(motorcycle.cylindrical).thenReturn(800.0)
-        `when`(validatesDomain.cylindricalIsUp(motorcycle.cylindrical)).thenReturn(2000)
-        `when`(validatesDomain.totalToPay(vehicle.toHour(), vehicle.type)).thenReturn(8000)
         // Act
         val result = mainService.deleteVehicle(plate)
         // Assert
-        assertEquals("The value to be paid is of 10000", result)
+        assertEquals("The value to be paid is of 2500", result)
     }
 
     @Test
     fun deleteMotorcycleCylindricalOf200() {
         // Arrange
-        val plate = "ABC123"
+        val type = 1
+        val plate = "HBC123"
+        val cylindrical = 200.0
+        val site = 0
+        val day = 5
+        val vehicle = VehicleDomain(plate, Date().time, type, site)
+        val motorcycle = MotorcycleDomain(vehicle.plate, cylindrical)
         `when`(vehicleRepository.exist(plate)).thenReturn(true)
         `when`(vehicleRepository.select(plate)).thenReturn(vehicle)
-        `when`(vehicle.type).thenReturn(ID_MOTORCYCLE)
         `when`(motorcycleRepository.select(plate)).thenReturn(motorcycle)
-        `when`(motorcycle.cylindrical).thenReturn(200.0)
-        `when`(validatesDomain.totalToPay(vehicle.toHour(), vehicle.type)).thenReturn(8000)
         // Act
         val result = mainService.deleteVehicle(plate)
         // Assert
-        assertEquals("The value to be paid is of 8000", result)
+        assertEquals("The value to be paid is of 500", result)
     }
 
     @Test
@@ -386,6 +370,10 @@ class ServicesDomainTest {
     fun consultTableCarNoEmpty() {
         // Arrage
         val type = 0
+        val plate = "HBC123"
+        val site = 0
+        val vehicles: List<VehicleDomain> = ArrayList()
+        vehicles.plus(VehicleDomain(plate, Date().time, type, site))
         `when`(vehicleRepository.existType(type)).thenReturn(true)
         `when`(vehicleRepository.selectAllType(type)).thenReturn(vehicles)
         // Act
@@ -398,6 +386,10 @@ class ServicesDomainTest {
     fun consultTableMotorcycleNoEmpty() {
         // Arrage
         val type = 1
+        val plate = "HBC123"
+        val site = 0
+        val vehicles: List<VehicleDomain> = ArrayList()
+        vehicles.plus(VehicleDomain(plate, Date().time, type, site))
         `when`(vehicleRepository.existType(type)).thenReturn(true)
         `when`(vehicleRepository.selectAllType(type)).thenReturn(vehicles)
         // Act

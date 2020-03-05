@@ -1,13 +1,14 @@
 package com.ceiba.parkinglot_adn.data.repositories
 
 import com.ceiba.parkinglot_adn.data.dao.MotorcycleDao
-import com.ceiba.parkinglot_adn.domain.interfaces.MotorcycleRepositoryInterface
+import com.ceiba.parkinglot_adn.domain.repositories.MotorcycleRepository
 import com.ceiba.parkinglot_adn.domain.objects.MotorcycleDomain
 import com.ceiba.parkinglot_adn.domain.tools.ModelMapper
 import com.ceiba.parkinglot_adn.presentation.base.BaseApplication
 import javax.inject.Inject
 
-class MotorcycleRepositoryImpl : MotorcycleRepositoryInterface {
+class MotorcycleRepositoryImpl :
+    MotorcycleRepository {
 
     @Inject
     lateinit var motorcycleDao: MotorcycleDao

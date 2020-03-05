@@ -2,17 +2,17 @@ package com.ceiba.parkinglot_adn.injection
 
 import com.ceiba.parkinglot_adn.data.repositories.MotorcycleRepositoryImpl
 import com.ceiba.parkinglot_adn.data.repositories.VehicleRepositoryImpl
-import com.ceiba.parkinglot_adn.domain.interfaces.MotorcycleRepositoryInterface
-import com.ceiba.parkinglot_adn.domain.interfaces.VehicleRepositoryInterface
+import com.ceiba.parkinglot_adn.domain.repositories.MotorcycleRepository
+import com.ceiba.parkinglot_adn.domain.repositories.VehicleRepository
 import dagger.Module
 import dagger.Provides
 
 @Module
 class RepositoryModule {
     @Provides
-    fun instanceVehicleRepository(): VehicleRepositoryInterface = VehicleRepositoryImpl()
+    fun instanceVehicleRepository(): VehicleRepository = VehicleRepositoryImpl()
 
     @Provides
-    fun instanceMotorcycleRepository(): MotorcycleRepositoryInterface =
+    fun instanceMotorcycleRepository(): MotorcycleRepository =
         MotorcycleRepositoryImpl()
 }

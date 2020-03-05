@@ -3,12 +3,13 @@ package com.ceiba.parkinglot_adn.presentation.presenters
 import android.os.Bundle
 import android.view.View
 import com.ceiba.parkinglot_adn.R
-import com.ceiba.parkinglot_adn.domain.interfaces.MainServiceInterface
 import com.ceiba.parkinglot_adn.domain.objects.VehicleDomain
 import com.ceiba.parkinglot_adn.domain.services.MainService
+import com.ceiba.parkinglot_adn.presentation.base.BaseApplication
 import com.ceiba.parkinglot_adn.presentation.interfaces.MainActivityInterface
 import com.ceiba.parkinglot_adn.presentation.interfaces.MainPresenterInterface
 import java.io.Serializable
+import javax.inject.Inject
 
 private const val VEHICLE = "vehicle"
 private const val NO_SPACE = "no_space"
@@ -21,7 +22,12 @@ private const val EMPTY = "empty"
 
 class MainPresenter(private val view: MainActivityInterface) : MainPresenterInterface {
 
-    private val service: MainServiceInterface = MainService()
+    @Inject
+    lateinit var service: MainService
+
+    init {
+        BaseApplication.getApplicationComponent()?.inject(this)
+    }
 
     private fun getIdVehicle(type: Int): Int {
         return if (type == R.id.rb_motorcycle) 1 else 0

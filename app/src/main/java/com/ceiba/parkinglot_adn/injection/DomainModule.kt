@@ -1,7 +1,7 @@
 package com.ceiba.parkinglot_adn.injection
 
 import com.ceiba.parkinglot_adn.domain.tools.ModelMapper
-import com.ceiba.parkinglot_adn.domain.business_logic.ValidatesDomain
+import com.ceiba.parkinglot_adn.domain.businesslogic.ValidatesDomain
 import com.google.gson.Gson
 import dagger.Module
 import dagger.Provides

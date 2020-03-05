@@ -1,6 +1,6 @@
 package com.ceiba.parkinglot_adn.domain
 
-import com.ceiba.parkinglot_adn.domain.business_logic.ValidatesDomain
+import com.ceiba.parkinglot_adn.domain.businesslogic.ValidatesDomain
 import org.junit.Assert.assertEquals
 import org.junit.Test
 
